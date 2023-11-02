@@ -35,20 +35,7 @@ public sealed class EmojiSnippet : TextSnippet
             return false;
         }
 
-        var directory = new DirectoryInfo(Emojiverse.EmojiPath);
-        var matchingFiles = directory.GetFiles(Name + ".*");
-
-        if (matchingFiles.Length <= 0) {
-            return false;
-        }
-
-        var path = matchingFiles[0].FullName;
-        var extension = Path.GetExtension(path);
-
-        if (extension == PngExtension) {
-            using var stream = new FileStream(path, FileMode.Open);
-            
-            var texture = Texture2D.FromStream(Main.graphics.GraphicsDevice, stream);
+        if (EmojiCacheSystem.GetEmojiImage(Name) is { IsLoaded: true, Value: { } texture }) {
             var rectangle = new Rectangle((int)position.X, (int)position.Y, (int)Size, (int)Size);
             
             spriteBatch.Draw(texture, rectangle, texture.Frame(), Color.White, 0f, default, SpriteEffects.None, 0);
