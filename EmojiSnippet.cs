@@ -14,7 +14,7 @@ public sealed class EmojiSnippet : TextSnippet
     private const string PngExtension = ".png";
     private const string GifExtension = ".gif";
 
-    private const float Size = 24f;
+    private const float Size = 20f;
     private const float Padding = 4f;
 
     public readonly string Name;
