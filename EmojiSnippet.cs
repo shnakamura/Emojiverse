@@ -1,8 +1,6 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using Emojiverse.Common.Graphics.Snapshots;
-using Emojiverse.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
@@ -49,10 +47,9 @@ public sealed class EmojiSnippet : TextSnippet
 
         if (extension == PngExtension) {
             using var stream = new FileStream(path, FileMode.Open);
-            var texture = Texture2D.FromStream(Main.graphics.GraphicsDevice, stream);
             
+            var texture = Texture2D.FromStream(Main.graphics.GraphicsDevice, stream);
             var rectangle = new Rectangle((int)position.X, (int)position.Y, (int)Size, (int)Size);
-            var snapshot = SpriteBatchSnapshot.Capture(spriteBatch);
             
             spriteBatch.Draw(texture, rectangle, texture.Frame(), Color.White, 0f, default, SpriteEffects.None, 0);
         }

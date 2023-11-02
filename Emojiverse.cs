@@ -9,8 +9,6 @@ namespace Emojiverse;
 
 public sealed class Emojiverse : Mod
 {
-    internal static Dictionary<string, Texture2D> EmojiImageCache { get; set; } = new();
-    
     public static string EmojiPath => Path.Combine(Main.SavePath, "Emojis");
 
     public override void Load() {
