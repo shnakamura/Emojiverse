@@ -30,7 +30,7 @@ public sealed class EmojiSnippet : TextSnippet
     }
 
     public override bool UniqueDraw(bool justCheckingString, [UnscopedRef] out Vector2 size, SpriteBatch spriteBatch, Vector2 position = default, Color color = default, float scale = 1f) {
-        size = new Vector2(Size) * Scale;
+        size = new Vector2(Size + Padding) * Scale;
 
         if (justCheckingString) {
             return false;
@@ -60,6 +60,6 @@ public sealed class EmojiSnippet : TextSnippet
     }
 
     public override float GetStringLength(DynamicSpriteFont font) {
-        return (Size / 2f + Padding) * Scale;
+        return Size * Scale;
     }
 }
