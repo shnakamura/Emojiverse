@@ -1,0 +1,11 @@
+displayName = Emojiverse
+author = Naka & LolXD
+version = 0.1
+
+side = Client
+
+includeSource = true
+includePDB = true
+
+hideCode = false
+hideResources = false
