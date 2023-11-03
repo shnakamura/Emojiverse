@@ -9,7 +9,7 @@ namespace Emojiverse;
 
 public sealed class Emojiverse : Mod
 {
-    public static string EmojisPath => Path.Combine(Main.SavePath, "Emojis");
+    public static readonly string EmojisPath = Path.Combine(Main.SavePath, "EmojiPacks");
 
     public override void Load() {
         if (!Directory.Exists(EmojisPath)) {
