@@ -1,14 +1,5 @@
 Mods: {
 	Emojiverse: {
-		Configs: {
-			EmojiverseConfig: {
-				DisplayName: Emojiverse Config
 
-				DisableFileWatcher: {
-					Label: Disable File Watcher
-					Tooltip: ""
-				}
-			}
-		}
 	}
 }

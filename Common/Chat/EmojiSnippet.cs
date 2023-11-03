@@ -10,8 +10,6 @@ namespace Emojiverse.Common.Chat;
 
 public sealed class EmojiSnippet : TextSnippet
 {
-    private const string PngExtension = ".png";
-
     private const float Size = 20f;
     private const float Padding = 4f;
 

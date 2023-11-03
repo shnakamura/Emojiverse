@@ -11,7 +11,7 @@ internal sealed class EmojiChatParsingSystem : ModSystem
     public override void OnModLoad() {
         On_ChatManager.ParseMessage += ParseMessageHook;
     }
-    
+
     private static List<TextSnippet> ParseMessageHook(On_ChatManager.orig_ParseMessage orig, string text, Color baseColor) {
         const string pattern = @":(\w+):";
         const string replacement = "[e:$1]";

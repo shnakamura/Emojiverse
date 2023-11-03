@@ -1,10 +1,6 @@
-using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
-using System.Linq;
-using System.Text.RegularExpressions;
 using Emojiverse.Common.Chat;
-using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
