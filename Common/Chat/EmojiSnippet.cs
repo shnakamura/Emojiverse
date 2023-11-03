@@ -1,13 +1,12 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using System.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI.Chat;
 
-namespace Emojiverse;
+namespace Emojiverse.Common.Chat;
 
 public sealed class EmojiSnippet : TextSnippet
 {
@@ -33,12 +32,6 @@ public sealed class EmojiSnippet : TextSnippet
 
         if (justCheckingString) {
             return false;
-        }
-
-        if (EmojiCacheSystem.GetEmojiImage(Name) is { IsLoaded: true, Value: { } texture }) {
-            var rectangle = new Rectangle((int)position.X, (int)position.Y, (int)Size, (int)Size);
-            
-            spriteBatch.Draw(texture, rectangle, texture.Frame(), Color.White, 0f, default, SpriteEffects.None, 0);
         }
 
         return true;
