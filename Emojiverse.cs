@@ -1,6 +1,8 @@
+using System.Collections.Generic;
 using System.IO;
 using System.IO.Compression;
 using Emojiverse.Common.Chat;
+using Emojiverse.Common.IO;
 using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
@@ -9,29 +11,54 @@ namespace Emojiverse;
 
 public sealed class Emojiverse : Mod
 {
-    public static readonly string EmojisPath = Path.Combine(Main.SavePath, "EmojiPacks");
+    public static readonly string EmojiPath = Path.Combine(Main.SavePath, "EmojiPacks");
+
+    private static readonly Dictionary<string, int> repeatedEmojisByName = new();
 
     public override void Load() {
-        if (!Directory.Exists(EmojisPath)) {
-            Directory.CreateDirectory(EmojisPath);
-        }
-
+        if (Directory.Exists(EmojiPath)) {
         CacheEmojiPacks();
-    }
-
-    public override void PostSetupContent() {
-        ChatManager.Register<EmojiTagHandler>("e", "emoji");
+            return;
+        }
+        
+        Directory.CreateDirectory(EmojiPath);
+        
     }
 
     private void CacheEmojiPacks() {
-        var files = Directory.EnumerateFiles(EmojisPath, "*.zip", SearchOption.TopDirectoryOnly);
+        var zipFiles = Directory.EnumerateFiles(EmojiPath, "*.zip", SearchOption.TopDirectoryOnly);
 
-        foreach (var file in files) {
-            using var zipStream = new FileStream(file, FileMode.Open);
+        foreach (var zipFile in zipFiles) {
+            using var zipStream = new FileStream(zipFile, FileMode.Open);
             using var zipArchive = new ZipArchive(zipStream, ZipArchiveMode.Read);
 
-            var icon = zipArchive.GetEntry("icon.png");
-            var folder = zipArchive.GetEntry("emojis/");
+            var images = zipArchive.GetEntry("images/");
+
+            var entries = images.Archive.Entries;
+ 
+            for (int i = 0; i < entries.Count; i++) {
+                var entry = entries[i];
+
+                var path = entry.FullName;
+                var extension = Path.GetExtension(path);
+
+                if (string.IsNullOrEmpty(extension) || extension != ".png") {
+                    continue;
+                }
+                
+                var name = Path.GetFileNameWithoutExtension(path);
+                var alias = Path.GetFileNameWithoutExtension(path);
+
+                if (repeatedEmojisByName.TryGetValue(name, out var count)) {
+                    alias = $"{alias}~{count}";
+                    repeatedEmojisByName[name]++;
+                }
+                else {
+                    repeatedEmojisByName.Add(name, 1);
+                }
+                
+                Logger.Debug($"Path: {path} @ Alias: {alias}");
+            }
         }
     }
 }

@@ -11,6 +11,10 @@ internal sealed class EmojiChatParsingSystem : ModSystem
     public override void OnModLoad() {
         On_ChatManager.ParseMessage += ParseMessageHook;
     }
+    
+    public override void PostSetupContent() {
+        ChatManager.Register<EmojiTagHandler>("e", "emoji");
+    }
 
     private static List<TextSnippet> ParseMessageHook(On_ChatManager.orig_ParseMessage orig, string text, Color baseColor) {
         const string pattern = @":(\w+):";
