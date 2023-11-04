@@ -12,7 +12,7 @@ public sealed class Emojiverse : Mod
         if (Directory.Exists(EmojiPath)) {
             return;
         }
-        
+
         Directory.CreateDirectory(EmojiPath);
     }
 }

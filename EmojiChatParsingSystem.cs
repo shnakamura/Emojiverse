@@ -5,14 +5,14 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
-namespace Emojiverse.Common.Chat;
+namespace Emojiverse;
 
 internal sealed class EmojiChatParsingSystem : ModSystem
 {
     public override void OnModLoad() {
         On_ChatManager.ParseMessage += ParseMessageHook;
     }
-    
+
     public override void PostSetupContent() {
         ChatManager.Register<EmojiTagHandler>("e", "emoji");
     }
@@ -21,7 +21,7 @@ internal sealed class EmojiChatParsingSystem : ModSystem
         if (Main.gameMenu) {
             return orig(text, baseColor);
         }
-        
+
         const string pattern = @":(\w+):";
         const string replacement = "[e:$1]";
 
