@@ -1,6 +1,7 @@
 ﻿using System.Collections.Generic;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -17,6 +18,10 @@ internal sealed class EmojiChatParsingSystem : ModSystem
     }
 
     private static List<TextSnippet> ParseMessageHook(On_ChatManager.orig_ParseMessage orig, string text, Color baseColor) {
+        if (Main.gameMenu) {
+            return orig(text, baseColor);
+        }
+        
         const string pattern = @":(\w+):";
         const string replacement = "[e:$1]";
 
