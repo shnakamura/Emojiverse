@@ -13,7 +13,7 @@ public sealed class EmojiSnippet : TextSnippet
     private const float Size = 28f;
     private const float SizeLimit = Size * 0.75f;
 
-    public readonly Emoji Emoji;
+    public Emoji Emoji { get; }
 
     public EmojiSnippet(Emoji emoji) {
         Emoji = emoji;

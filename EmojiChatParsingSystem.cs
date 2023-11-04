@@ -9,6 +9,7 @@ namespace Emojiverse;
 
 internal sealed class EmojiChatParsingSystem : ModSystem
 {
+    private static Regex matchRegex = new(@":(\w+):", RegexOptions.Compiled);
     public override void OnModLoad() {
         On_ChatManager.ParseMessage += ParseMessageHook;
     }
@@ -22,11 +23,7 @@ internal sealed class EmojiChatParsingSystem : ModSystem
             return orig(text, baseColor);
         }
 
-        const string pattern = @":(\w+):";
-        const string replacement = "[e:$1]";
-
-        var matches = Regex.Matches(text, pattern, RegexOptions.Compiled);
-        var parsed = Regex.Replace(text, pattern, replacement);
+        var parsed = matchRegex.Replace(text, static match => $"[e{match.Value}]");
 
         return orig(parsed, baseColor);
     }
