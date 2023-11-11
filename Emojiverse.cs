@@ -1,12 +1,5 @@
-﻿using Emojiverse.Common.Chat;
-using Terraria.ModLoader;
-using Terraria.UI.Chat;
+﻿using Terraria.ModLoader;
 
 namespace Emojiverse;
 
-public sealed class Emojiverse : Mod
-{
-    public override void PostSetupContent() {
-        ChatManager.Register<EmojiTagHandler>("e", "emoji", "emote");
-    }
-}
+public sealed class Emojiverse : Mod { }

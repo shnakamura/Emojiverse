@@ -1,6 +1,5 @@
 ﻿using System;
 using System.Diagnostics.CodeAnalysis;
-using Emojiverse.Common.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
@@ -12,9 +11,9 @@ namespace Emojiverse.Common.Chat;
 public sealed class EmojiSnippet : TextSnippet
 {
     private const float Size = 20f;
-    public readonly string Alias;
-
+    
     public readonly Asset<Texture2D> Asset;
+    public readonly string Alias;
 
     public EmojiSnippet(Asset<Texture2D> asset, string alias) {
         ArgumentNullException.ThrowIfNull(asset, nameof(asset));
@@ -40,31 +39,7 @@ public sealed class EmojiSnippet : TextSnippet
             var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
             var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)Size, (int)Size);
 
-            var snapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-
-            spriteBatch.End();
-            spriteBatch.Begin(
-                SpriteSortMode.Texture,
-                BlendState.AlphaBlend,
-                SamplerState.PointClamp,
-                DepthStencilState.Default,
-                RasterizerState.CullNone,
-                snapshot.Effect,
-                snapshot.TransformMatrix
-            );
-
             spriteBatch.Draw(texture, rectangle, frame, color, 0f, origin, SpriteEffects.None, 0f);
-
-            spriteBatch.End();
-            spriteBatch.Begin(
-                snapshot.SortMode,
-                snapshot.BlendState,
-                snapshot.SamplerState,
-                snapshot.DepthStencilState,
-                snapshot.RasterizerState,
-                snapshot.Effect,
-                snapshot.TransformMatrix
-            );
         }
 
         size = new Vector2(Size);
