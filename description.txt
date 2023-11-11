@@ -1,1 +1,7 @@
-Emojiverse is a pretty cool mod, it does...this. Modify this file with a description of your mod.
+Emojiverse is a mod that brings chat emojis to Terraria.
+
+Emojis are loaded via resource packs, except instead of saving resources in Content/Images they should go in Content/Emojis.
+
+* Only supports .png files as of now *
+
+Use the '/listemojis' command to view all emojis available
