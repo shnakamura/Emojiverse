@@ -6,6 +6,7 @@ using Terraria.ModLoader;
 
 namespace Emojiverse.Common.Chat.Commands;
 
+// TODO: Temporary patch, make auto suggestion UI.
 public sealed class ListEmojiCommand : ModCommand
 {
     public override CommandType Type { get; } = CommandType.Chat;

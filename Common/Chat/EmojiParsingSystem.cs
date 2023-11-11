@@ -22,7 +22,6 @@ public sealed class EmojiParsingSystem : ModSystem
             return orig(text, baseColor);
         }
 
-        //var matches = MatchPattern.Matches(text);
         var parsed = MatchPattern.Replace(text, @"[e:$1]");
 
         return orig(parsed, baseColor);
