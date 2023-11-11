@@ -1,5 +1,5 @@
 displayName = Emojiverse
-author = Naka & LolXD
+author = Naka
 version = 0.1
 
 side = Client
