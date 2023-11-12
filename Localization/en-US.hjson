@@ -1,4 +1,1 @@
-Mods: {
-	Emojiverse: {
-	}
-}
+Mods.Emojiverse.Messages.Undetected: No emoji packs were detected. If this was not intended, check your enabled resource packs.
