@@ -4,12 +4,13 @@ using Terraria.ModLoader.Config;
 
 namespace Emojiverse.Common;
 
-public sealed class EmojiConfig : ModConfig
+public sealed class ClientConfig : ModConfig
 {
-    public static EmojiConfig Instance => ModContent.GetInstance<EmojiConfig>();
+    public static ClientConfig Instance => ModContent.GetInstance<ClientConfig>();
     
     public override ConfigScope Mode { get; } = ConfigScope.ClientSide;
 
+    [Header("Messages")]
     [DefaultValue(true)]
-    public bool DisplayWarning = true;
+    public bool EnableWarningMessages { get; set; } = true;
 }

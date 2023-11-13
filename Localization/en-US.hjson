@@ -1,1 +1,17 @@
-Mods.Emojiverse.Messages.Undetected: No emoji packs were detected. If this was not intended, check your enabled resource packs.
+Mods: {
+	Emojiverse: {
+		Messages.Undetected: No emoji packs were detected. If this was not intended, check your enabled resource packs.
+
+		Configs: {
+			ClientConfig: {
+				DisplayName: Emoji Config
+				Headers.Messages: Messages
+
+				EnableWarningMessages: {
+					Label: Enable Warning Messages
+					Tooltip: Toggles warning messages, like undetected emoji packs, or other potential issues.
+				}
+			}
+		}
+	}
+}

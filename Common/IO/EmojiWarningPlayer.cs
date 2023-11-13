@@ -8,6 +8,10 @@ namespace Emojiverse.Common.IO;
 public sealed class EmojiWarningPlayer : ModPlayer
 {
     public override void OnEnterWorld() {
+        if (!ClientConfig.Instance.EnableWarningMessages) {
+            return;
+        }
+        
         var emojis = EmojiCacheSystem.ReadEmojis();
 
         if (emojis.Length > 0) {
