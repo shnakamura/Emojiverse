@@ -9,8 +9,7 @@ namespace Emojiverse.Common.Chat;
 
 public sealed class EmojiParsingSystem : ModSystem
 {
-    private static readonly Regex EscapeRegex = new Regex(@"\\:(\w+):", RegexOptions.Compiled);
-    private static readonly Regex ParseRegex = new Regex(@":(\w+):", RegexOptions.Compiled);
+    private static readonly Regex MatchRegex = new(@":(\w+):", RegexOptions.Compiled);
 
     public override void OnModLoad() {
         On_ChatManager.ParseMessage += ParseMessageHook;
@@ -24,10 +23,13 @@ public sealed class EmojiParsingSystem : ModSystem
         }
 
         const string replacePattern = @"[e:$1]";
+        const string dummyCharacter = @"\x01";
 
-        text = text.Replace("\\:", "\x01");
-        var parsed = ParseRegex.Replace(text, replacePattern);
-        parsed = parsed.Replace("\x01", ":");
+        text = text.Replace("\\:", dummyCharacter);
+        
+        var parsed = MatchRegex.Replace(text, replacePattern);
+        
+        parsed = parsed.Replace(dummyCharacter, ":");
 
         return orig(parsed, baseColor);
     }
