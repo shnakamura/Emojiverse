@@ -14,15 +14,15 @@ namespace Emojiverse.Common.Chat;
 public sealed class EmojiSnippet : TextSnippet
 {
     public readonly Asset<Texture2D> Asset;
-    public readonly string Alias;
+    public readonly string Name;
     
-    public EmojiSnippet(Asset<Texture2D> asset, string alias) {
+    public EmojiSnippet(Asset<Texture2D> asset, string name) {
         Asset = asset;
-        Alias = alias;
+        Name = name;
     }
 
     public override void OnHover() {
-        Main.instance.MouseText(Alias);
+        Main.instance.MouseText(Name);
     }
 
     public override bool UniqueDraw(bool justCheckingString, [UnscopedRef] out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
