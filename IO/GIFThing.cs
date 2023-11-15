@@ -24,7 +24,7 @@ public sealed class GIFThing
         foreach (var id in dimensions) {
             var dimension = new FrameDimension(id);
             var dimensionFrameCount = image.GetFrameCount(dimension);
-            
+            image.GetPropertyItem(0x5100);
             if (dimensionFrameCount > 0) {
                 return (dimension, frameCount);
             }
