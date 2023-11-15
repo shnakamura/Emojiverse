@@ -4,8 +4,12 @@ Mods: {
 
 		Configs: {
 			ClientConfig: {
-				DisplayName: Emoji Config
-				Headers.Messages: Messages
+				DisplayName: Emojis Configuration
+
+				Headers: {
+					Messages: Messages
+					Chat: Chat
+				}
 
 				EnableWarningMessages: {
 					Label: Enable Warning Messages

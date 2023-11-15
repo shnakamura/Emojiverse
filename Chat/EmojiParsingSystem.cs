@@ -5,7 +5,7 @@ using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
-namespace Emojiverse.Common.Chat;
+namespace Emojiverse.Chat;
 
 public sealed class EmojiParsingSystem : ModSystem
 {

@@ -1,22 +1,19 @@
-﻿using System;
-using System.Diagnostics.CodeAnalysis;
-using Emojiverse.Common.Graphics;
+﻿using System.Diagnostics.CodeAnalysis;
+using Emojiverse.Graphics;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using Terraria;
-using Terraria.GameContent;
-using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
-namespace Emojiverse.Common.Chat;
+namespace Emojiverse.Chat.Snippets;
 
-public sealed class EmojiSnippet : TextSnippet
+public sealed class ImageEmojiSnippet : TextSnippet
 {
     public readonly Asset<Texture2D> Asset;
     public readonly string Name;
     
-    public EmojiSnippet(Asset<Texture2D> asset, string name) {
+    public ImageEmojiSnippet(Asset<Texture2D> asset, string name) {
         Asset = asset;
         Name = name;
     }
@@ -39,7 +36,7 @@ public sealed class EmojiSnippet : TextSnippet
 
             var area = new Vector2(Size);
             var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
-            var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), Size, Size);
+            var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
 
             var snapshot = SpriteBatchSnapshot.Capture(spriteBatch);
             

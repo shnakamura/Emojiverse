@@ -1,9 +1,10 @@
-﻿using Microsoft.Xna.Framework;
+﻿using Emojiverse.Chat.Snippets;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria;
 using Terraria.UI.Chat;
 
-namespace Emojiverse.Common.Chat;
+namespace Emojiverse.Chat;
 
 public sealed class EmojiTagHandler : ITagHandler
 {
@@ -25,7 +26,7 @@ public sealed class EmojiTagHandler : ITagHandler
         var asset = Main.Assets.Request<Texture2D>(path);
         var alias = text;
 
-        return new EmojiSnippet(asset, alias) {
+        return new ImageEmojiSnippet(asset, alias) {
             CheckForHover = true,
             DeleteWhole = true
         };

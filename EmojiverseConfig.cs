@@ -2,11 +2,11 @@
 using Terraria.ModLoader;
 using Terraria.ModLoader.Config;
 
-namespace Emojiverse.Common;
+namespace Emojiverse;
 
-public sealed class ClientConfig : ModConfig
+public sealed class EmojiverseConfig : ModConfig
 {
-    public static ClientConfig Instance => ModContent.GetInstance<ClientConfig>();
+    public static EmojiverseConfig Instance => ModContent.GetInstance<EmojiverseConfig>();
     
     public override ConfigScope Mode { get; } = ConfigScope.ClientSide;
 

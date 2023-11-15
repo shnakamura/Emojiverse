@@ -4,12 +4,16 @@ Mods: {
 
 		Configs: {
 			ClientConfig: {
-				// DisplayName: Emoji Config
-				// Headers.Messages: Messages
+				DisplayName: Configuración de Emojis
+
+				Headers: {
+					Messages: Mensajes
+					Chat: Chat
+				}
 
 				EnableWarningMessages: {
-					// Label: Enable Warning Messages
-					// Tooltip: Toggles warning messages, like undetected emoji packs, or other potential issues.
+					Label: Activar mensajes de advertencias
+					Tooltip: Activa o desactiva mensajes de advertencias, como packs de emojis sin detectar u otros posibles problemas.
 				}
 			}
 		}

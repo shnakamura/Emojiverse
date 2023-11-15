@@ -3,18 +3,18 @@ using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
-namespace Emojiverse.Common.IO;
+namespace Emojiverse.IO;
 
 public sealed class EmojiWarningPlayer : ModPlayer
 {
     public override void OnEnterWorld() {
-        if (!ClientConfig.Instance.EnableWarningMessages) {
+        if (!EmojiverseConfig.Instance.EnableWarningMessages) {
             return;
         }
-        
-        var emojis = EmojiCacheSystem.ReadEmojis();
 
-        if (emojis.Length > 0) {
+        var emojis = EmojiCacheSystem.Emojis;
+
+        if (emojis.Count > 0) {
             return;
         }
 

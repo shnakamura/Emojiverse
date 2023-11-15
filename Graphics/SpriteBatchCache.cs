@@ -1,7 +1,7 @@
 ﻿using System.Reflection;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Emojiverse.Common.Graphics;
+namespace Emojiverse.Graphics;
 
 public sealed class SpriteBatchCache
 {
