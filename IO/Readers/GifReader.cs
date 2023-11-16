@@ -2,51 +2,48 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using ReLogic.Content.Readers;
+using Terraria;
+using Terraria.ModLoader;
 
 namespace Emojiverse.IO.Readers;
 
-public sealed class GifReader : IReader<Texture2D[]>
+public sealed class GifReader : IAssetReader
 {
-    public string[] Extensions { get; } = new[] {
-        ".gif"
-    };
+    public async ValueTask<T> FromStream<T>(Stream stream, MainThreadCreationContext context) where T : class {
+        if (typeof(T) != typeof(Gif)) {
+            throw AssetLoadException.FromInvalidReader<GifReader, T>();
+        }
+        
+        await context;
 
-    public Texture2D[] Read(string path) {
-        throw new NotImplementedException();
-    }
-}
-
-/*
-    public static void Hamburger(string path) {
-        using var stream = new FileStream(path, FileMode.Open);
         using var image = Image.FromStream(stream);
 
-        var data = GetFrameData(image);
-        
-        for (int i = 0; i < data.FrameCount; i++) {
-            image.SelectActiveFrame(data.Dimension, i);
-        }
-    }
+        var dimension = new FrameDimension(image.FrameDimensionsList[0]);
+        var frameCount = image.GetFrameCount(dimension);
 
-    private static (FrameDimension Dimension, int FrameCount) GetFrameData(Image image) {
-        var dimensions = image.FrameDimensionsList;
-        var frameCount = 1;
+        var frames = new Texture2D[frameCount];
 
-        foreach (var id in dimensions) {
-            var dimension = new FrameDimension(id);
-            var dimensionFrameCount = image.GetFrameCount(dimension);
-            
-            var frameDelayInfo = image.GetPropertyItem(0x5100);
-            var frameDelay = BitConverter.ToInt32(frameDelayInfo.Value, 0) * 10;
+        for (var i = 0; i < frameCount; i++) {
+            using var memoryStream = new MemoryStream();
 
-            var frameRate = frameCount / (frameDelay / 1000f);
-            
-            if (dimensionFrameCount > 0) {
-                return (dimension, frameCount);
-            }
+            image.Save(memoryStream, ImageFormat.Png);
+            image.SelectActiveFrame(dimension, i);
+
+            memoryStream.Seek(0, SeekOrigin.Begin);
+
+            frames[i] = Texture2D.FromStream(Main.graphics.GraphicsDevice, memoryStream);
         }
         
-        return (null, frameCount);
+        var frameDelayInfo = image.GetPropertyItem(0x5100);
+        var frameDelay = BitConverter.ToInt32(frameDelayInfo.Value, 0) * 10;
+        var frameRate = frameCount / (frameDelay / 1000);
+
+        var gif = new Gif(frames, frameCount, frameRate);
+        
+        return (T)(object)gif;
     }
- */
+}

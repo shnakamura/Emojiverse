@@ -1,20 +1,21 @@
 ﻿using System.IO;
+using System.Threading.Tasks;
 using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
+using ReLogic.Content.Readers;
 using Terraria;
 
 namespace Emojiverse.IO.Readers;
 
-public sealed class JpgReader : IReader<Texture2D>
+public sealed class JpgReader : IAssetReader
 {
-    public string[] Extensions { get; } = new[] {
-        ".jpg",
-        ".jpeg"
-    };
-    
-    public Texture2D Read(string path) {
-        using var stream = new FileStream(path, FileMode.Open);
-        var device = Main.graphics.GraphicsDevice;
-        
-        return Texture2D.FromStream(device, stream);
+    public async ValueTask<T> FromStream<T>(Stream stream, MainThreadCreationContext context) where T : class {
+        if (typeof(T) != typeof(Texture2D)) {
+            throw AssetLoadException.FromInvalidReader<JpgReader, T>();
+        }
+
+        await context;
+
+        return (T)(object)Texture2D.FromStream(Main.graphics.GraphicsDevice, stream);
     }
 }

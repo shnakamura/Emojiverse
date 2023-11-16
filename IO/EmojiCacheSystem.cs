@@ -1,6 +1,8 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Emojiverse.IO.Readers;
+using ReLogic.Content;
 using Terraria;
 using Terraria.IO;
 using Terraria.ModLoader;
@@ -35,20 +37,10 @@ public sealed class EmojiCacheSystem : ModSystem
                     continue;
                 }
 
-                switch (extension) {
-                    case ".png":
-                        var name = Path.GetFileNameWithoutExtension(asset);
-                        var entry = new Emoji(pack.Name, name);
+                var name = Path.GetFileNameWithoutExtension(asset);
+                var entry = new Emoji(pack.Name, name);
                         
-                        Emojis.Add(entry);
-                        break;
-                    case ".gif":
-                        ModContent.GetInstance<Emojiverse>().Logger.Debug("GIFFFFFFFF");
-                        break;
-                    default:
-                        throw new InvalidOperationException();
-                        break;
-                }
+                Emojis.Add(entry);
             }
         }
     }
