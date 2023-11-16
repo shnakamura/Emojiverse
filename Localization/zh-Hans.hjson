@@ -1,0 +1,21 @@
+﻿Mods: {
+	Emojiverse: {
+		Messages.Undetected: 未偵測到表情符號包.如果這不是有意的，請檢查您啟用的資源包。
+
+		Configs: {
+			EmojiverseConfig: {
+				DisplayName: 表情符號配置
+
+				Headers: {
+					Messages: 訊息
+					Chat: 聊天
+				}
+
+				EnableWarningMessages: {
+					Label: 啟用警告訊息
+					Tooltip: 切換警告訊息，例如未偵測到的表情符號包或其他潛在問題。
+				}
+			}
+		}
+	}
+}
