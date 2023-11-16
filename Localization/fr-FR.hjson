@@ -1,10 +1,10 @@
-﻿Mods: {
+Mods: {
 	Emojiverse: {
-		Messages.Undetected: "Aucun pack d'emojis détecté. Si cela n'est pas prévu, vérifiez vos packs de ressources activés."
+		Messages.Undetected: Aucun pack d'emojis détecté. Si cela n'est pas prévu, vérifiez vos packs de ressources activés.
 
 		Configs: {
-			ClientConfig: {
-				DisplayName: "Configuration des Emojis"
+			EmojiverseConfig: {
+				DisplayName: Configuration des Emojis
 
 				Headers: {
 					Messages: Messages
@@ -12,8 +12,8 @@
 				}
 
 				EnableWarningMessages: {
-					Label: "Activer les Messages d'Avertissement"
-					Tooltip: "Active les messages d'avertissement, comme des packs d'emojis non détectés, ou autres problèmes potentiels."
+					Label: Activer les Messages d'Avertissement
+					Tooltip: Active les messages d'avertissement, comme des packs d'emojis non détectés, ou autres problèmes potentiels.
 				}
 			}
 		}

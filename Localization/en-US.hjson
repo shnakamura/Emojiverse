@@ -3,7 +3,7 @@ Mods: {
 		Messages.Undetected: No emoji packs were detected. If this was not intended, check your enabled resource packs.
 
 		Configs: {
-			ClientConfig: {
+			EmojiverseConfig: {
 				DisplayName: Emojis Configuration
 
 				Headers: {

@@ -1,11 +1,13 @@
-﻿using System.Drawing;
+﻿using System;
+using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
 
-namespace Emojiverse.IO;
+namespace Emojiverse.IO.Readers;
 
-public sealed class GIFThing
-{
+public sealed class GifReader { }
+
+/*
     public static void Hamburger(string path) {
         using var stream = new FileStream(path, FileMode.Open);
         using var image = Image.FromStream(stream);
@@ -24,7 +26,12 @@ public sealed class GIFThing
         foreach (var id in dimensions) {
             var dimension = new FrameDimension(id);
             var dimensionFrameCount = image.GetFrameCount(dimension);
-            image.GetPropertyItem(0x5100);
+            
+            var frameDelayInfo = image.GetPropertyItem(0x5100);
+            var frameDelay = BitConverter.ToInt32(frameDelayInfo.Value, 0) * 10;
+
+            var frameRate = frameCount / (frameDelay / 1000f);
+            
             if (dimensionFrameCount > 0) {
                 return (dimension, frameCount);
             }
@@ -32,4 +39,4 @@ public sealed class GIFThing
         
         return (null, frameCount);
     }
-}
+ */

@@ -3,12 +3,12 @@ Mods: {
 		Messages.Undetected: Nenhum pack de emojis foi detectado. Se isso não foi proposital, verifique seus pacotes de recursos ativados.
 
 		Configs: {
-			ClientConfig: {
+			EmojiverseConfig: {
 				DisplayName: Configuração de Emojis
 
 				Headers: {
 					Messages: Mensagens
-		            Chat: Chat
+					Chat: Chat
 				}
 
 				EnableWarningMessages: {

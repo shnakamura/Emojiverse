@@ -1,3 +1,12 @@
 ﻿namespace Emojiverse.IO;
 
-public readonly record struct Emoji(string Pack, string Name);
+public sealed class Emoji : IEmoji
+{
+    public string Pack { get; private set; }
+    public string Name { get; private set; }
+    
+    public Emoji(string pack, string name) {
+        Pack = pack;
+        Name = name;
+    }
+}

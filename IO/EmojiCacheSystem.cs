@@ -39,10 +39,11 @@ public sealed class EmojiCacheSystem : ModSystem
                     case ".png":
                         var name = Path.GetFileNameWithoutExtension(asset);
                         var entry = new Emoji(pack.Name, name);
-
+                        
                         Emojis.Add(entry);
                         break;
                     case ".gif":
+                        ModContent.GetInstance<Emojiverse>().Logger.Debug("GIFFFFFFFF");
                         break;
                     default:
                         throw new InvalidOperationException();
