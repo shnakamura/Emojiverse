@@ -2,5 +2,7 @@
 
 public interface IReader<T>
 {
-    T Read<T>();
+    string[] Extensions { get; }
+    
+    T Read(string path);
 }

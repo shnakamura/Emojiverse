@@ -2,10 +2,20 @@
 using System.Drawing;
 using System.Drawing.Imaging;
 using System.IO;
+using Microsoft.Xna.Framework.Graphics;
 
 namespace Emojiverse.IO.Readers;
 
-public sealed class GifReader { }
+public sealed class GifReader : IReader<Texture2D[]>
+{
+    public string[] Extensions { get; } = new[] {
+        ".gif"
+    };
+
+    public Texture2D[] Read(string path) {
+        throw new NotImplementedException();
+    }
+}
 
 /*
     public static void Hamburger(string path) {
