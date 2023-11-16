@@ -40,7 +40,7 @@ public sealed class GifReader : IAssetReader
         
         var frameDelayInfo = image.GetPropertyItem(0x5100);
         var frameDelay = BitConverter.ToInt32(frameDelayInfo.Value, 0) * 10;
-        var frameRate = frameCount / (frameDelay / 1000);
+        var frameRate = frameCount * 1000 / frameDelay;
 
         var gif = new Gif(frames, frameCount, frameRate);
         
