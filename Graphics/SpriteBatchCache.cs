@@ -29,10 +29,11 @@ public static class SpriteBatchCache
         Effect = typeof(SpriteBatch).GetField("customEffect", FlagsPrivateInstance);
         TransformMatrix = typeof(SpriteBatch).GetField("transformMatrix", FlagsPrivateInstance);
 
-        DynamicMethod method = new("SpritebatchSnapshotAccessor", typeof(SpriteBatchSnapshot), new Type[] { typeof(SpriteBatch) }, typeof(SpriteBatch));
+        var method = new DynamicMethod("SpritebatchSnapshotAccessor", typeof(SpriteBatchSnapshot), new Type[] { typeof(SpriteBatch) }, typeof(SpriteBatch));
         var il = method.GetILGenerator();
         var result = il.DeclareLocal(typeof(SpriteBatchSnapshot));
         method.DefineParameter(0, ParameterAttributes.None, "spritebatch");
+
 
         il.Emit(OpCodes.Ldloca, result);
         il.Emit(OpCodes.Ldarg_0); // spritebatch

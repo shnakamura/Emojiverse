@@ -22,7 +22,7 @@ public sealed class ImageEmojiSnippet : TextSnippet
         Main.instance.MouseText(Name);
     }
 
-    public override bool UniqueDraw(bool justCheckingString, [UnscopedRef] out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
+    public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
         const int Size = 20;
 
         var notDrawingOutline = color.R != 0 || color.G != 0 || color.B != 0;
