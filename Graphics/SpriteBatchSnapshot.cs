@@ -1,6 +1,6 @@
-﻿using Microsoft.Xna.Framework;
+﻿using System;
+using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using System;
 
 namespace Emojiverse.Graphics;
 
@@ -14,9 +14,8 @@ public readonly record struct SpriteBatchSnapshot(
     Matrix TransformMatrix
 )
 {
-    public static SpriteBatchSnapshot Capture(SpriteBatch spriteBatch)
-    {
+    public static SpriteBatchSnapshot Capture(SpriteBatch spriteBatch) {
         ArgumentNullException.ThrowIfNull(spriteBatch);
-        return SpriteBatchCache.capture(spriteBatch);
+        return SpriteBatchCache.Capture(spriteBatch);
     }
 }

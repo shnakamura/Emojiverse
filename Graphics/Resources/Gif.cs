@@ -2,17 +2,14 @@
 
 namespace Emojiverse.Graphics.Resources;
 
-public sealed class Gif
+public class Gif
 {
-    public Texture2D[] Frames { get; private set; }
-    
-    public int FrameWidth { get; private set; }
-    public int FrameHeight { get; private set; }
-    
-    public int FrameRate { get; private set; }
-    public int FrameCount { get; private set; }
+    public readonly Texture2D[] Frames;
 
-    public Gif(Texture2D[] frames, int frameRate, int frameCount, int frameWidth, int frameHeight) {
+    public readonly int FrameRate;
+    public readonly int FrameCount;
+    
+    public Gif(Texture2D[] frames, int frameRate, int frameCount) {
         Frames = frames;
         FrameRate = frameRate;
         FrameCount = frameCount;

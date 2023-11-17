@@ -11,8 +11,8 @@ namespace Emojiverse.IO;
 
 public sealed class EmojiCache : ModSystem
 {
-    public static readonly List<Emoji> Emojis = new();
-
+    private static readonly Dictionary<string, int> repeatedNamesCountByName = new();
+    
     public override void Load() {
         Main.AssetSourceController.OnResourcePackChange += ReloadFromList;
     }
@@ -22,14 +22,8 @@ public sealed class EmojiCache : ModSystem
     }
 
     private void ReloadFromList(ResourcePackList list) {
-        Emojis.Clear();
-
-        var packs = list.EnabledPacks;
-
-        foreach (var pack in packs) {
-            var assets = pack.GetContentSource().EnumerateAssets();
-
-            foreach (var asset in assets) {
+        foreach (var pack in list.EnabledPacks) {
+            foreach (var asset in pack.GetContentSource().EnumerateAssets()) {
                 var directory = Path.GetDirectoryName(asset);
                 var extension = Path.GetExtension(asset);
 
@@ -38,16 +32,13 @@ public sealed class EmojiCache : ModSystem
                 }
 
                 var name = Path.GetFileNameWithoutExtension(asset);
-                var entry = new Emoji(pack.Name, name);
+                var alias = name;
+                
+                if (repeatedNamesCountByName.TryGetValue(name, out var count)) {
+                    alias += $"~{count}";
+                }
 
-                if (extension == ".gif") {
-                    Mod.Logger.Debug("Animated image found");
-                }
-                else if (extension == ".png" || extension == ".jpg" || extension == ".jpeg") {
-                    Mod.Logger.Debug("Image found");
-                }
-                        
-                Emojis.Add(entry);
+                repeatedNamesCountByName[name]++;
             }
         }
     }

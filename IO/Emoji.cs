@@ -1,3 +1,17 @@
-﻿namespace Emojiverse.IO;
+﻿using Microsoft.Xna.Framework.Graphics;
 
-public readonly record struct Emoji(string Pack, string Name);
+namespace Emojiverse.IO;
+
+public sealed class Emoji
+{
+    public string Alias { get; }
+    public string Name { get; }
+    
+    public int Id { get; }
+
+    internal Emoji(string alias, string name, int id) {
+        Alias = alias;
+        Name = name;
+        Id = id;
+    }
+}
