@@ -9,7 +9,7 @@ namespace Emojiverse;
 public sealed class EmojiversePlayer : ModPlayer
 {
     public override void OnEnterWorld() {
-        if (!EmojiverseConfig.Instance.EnableWarningMessages || EmojiCacheSystem.Emojis.Count > 0) {
+        if (!EmojiverseConfig.Instance.EnableWarningMessages || EmojiCache.Emojis.Count > 0) {
             return;
         }
 

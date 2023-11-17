@@ -9,7 +9,7 @@ using Terraria.ModLoader;
 
 namespace Emojiverse.IO;
 
-public sealed class EmojiCacheSystem : ModSystem
+public sealed class EmojiCache : ModSystem
 {
     public static readonly List<Emoji> Emojis = new();
 
@@ -21,7 +21,7 @@ public sealed class EmojiCacheSystem : ModSystem
         ReloadFromList(Main.AssetSourceController.ActiveResourcePackList);
     }
 
-    private static void ReloadFromList(ResourcePackList list) {
+    private void ReloadFromList(ResourcePackList list) {
         Emojis.Clear();
 
         var packs = list.EnabledPacks;
@@ -39,6 +39,13 @@ public sealed class EmojiCacheSystem : ModSystem
 
                 var name = Path.GetFileNameWithoutExtension(asset);
                 var entry = new Emoji(pack.Name, name);
+
+                if (extension == ".gif") {
+                    Mod.Logger.Debug("Animated image found");
+                }
+                else if (extension == ".png" || extension == ".jpg" || extension == ".jpeg") {
+                    Mod.Logger.Debug("Image found");
+                }
                         
                 Emojis.Add(entry);
             }
