@@ -12,7 +12,7 @@ public sealed class ImageEmojiSnippet : TextSnippet
 {
     public readonly Asset<Texture2D> Asset;
     public readonly string Name;
-    
+
     public ImageEmojiSnippet(Asset<Texture2D> asset, string name) {
         Asset = asset;
         Name = name;
@@ -24,7 +24,7 @@ public sealed class ImageEmojiSnippet : TextSnippet
 
     public override bool UniqueDraw(bool justCheckingString, [UnscopedRef] out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
         const int Size = 20;
-        
+
         var notDrawingOutline = color.R != 0 || color.G != 0 || color.B != 0;
 
         if (!justCheckingString && notDrawingOutline) {
@@ -39,30 +39,18 @@ public sealed class ImageEmojiSnippet : TextSnippet
             var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
 
             var snapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-            
+
             spriteBatch.End();
-            spriteBatch.Begin(
-                SpriteSortMode.Texture,
-                snapshot.BlendState,
-                SamplerState.LinearClamp,
-                snapshot.DepthStencilState,
-                RasterizerState.CullNone,
-                snapshot.Effect,
-                snapshot.TransformMatrix
-            );
-            
+            spriteBatch.Begin(snapshot with {
+                SortMode = SpriteSortMode.Texture,
+                SamplerState = SamplerState.LinearClamp,
+                RasterizerState = RasterizerState.CullNone
+            });
+
             spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
-            
+
             spriteBatch.End();
-            spriteBatch.Begin(
-                snapshot.SortMode,
-                snapshot.BlendState,
-                snapshot.SamplerState,
-                snapshot.DepthStencilState,
-                snapshot.RasterizerState,
-                snapshot.Effect,
-                snapshot.TransformMatrix
-            );
+            spriteBatch.Begin(in snapshot);
         }
 
         size = new Vector2(Size);
