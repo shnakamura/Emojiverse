@@ -1,7 +1,10 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
+using Emojiverse.Graphics.Resources;
 using Emojiverse.IO.Readers;
+using Microsoft.Xna.Framework.Graphics;
+using MonoMod.RuntimeDetour;
 using ReLogic.Content;
 using Terraria;
 using Terraria.IO;
@@ -34,10 +37,13 @@ public sealed class EmojiCache : ModSystem
                 var name = Path.GetFileNameWithoutExtension(asset);
                 var alias = name;
                 
-                if (repeatedNamesCountByName.TryGetValue(name, out var count)) {
-                    alias += $"~{count}";
+                if (!repeatedNamesCountByName.TryGetValue(name, out var count)) {
+                    repeatedNamesCountByName[name] = 1;
+                    continue;
                 }
-
+               
+                alias += $"~{count}";
+                
                 repeatedNamesCountByName[name]++;
             }
         }

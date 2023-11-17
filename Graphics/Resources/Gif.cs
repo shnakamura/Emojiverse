@@ -1,4 +1,6 @@
-﻿using Microsoft.Xna.Framework.Graphics;
+﻿using System;
+using Microsoft.Xna.Framework.Graphics;
+using ReLogic.Content;
 
 namespace Emojiverse.Graphics.Resources;
 
