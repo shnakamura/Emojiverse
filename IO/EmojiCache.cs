@@ -26,7 +26,7 @@ public sealed class EmojiCache : ModSystem
         var readers = Main.instance.Services.Get<AssetReaderCollection>();
         
         readers.RegisterReader(new GifReader(device), ".gif");
-        readers.RegisterReader(new JpgReader(device), ".jpg", ".jpeg");
+        readers.RegisterReader(new JpgReader(device), ".jpg", ".jpeg", ".jpe");
         
         Source = new EmojiverseContentSource();
         Assets = new AssetRepository(readers, new IContentSource[] { Source });
