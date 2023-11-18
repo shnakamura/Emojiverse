@@ -8,7 +8,13 @@ using Terraria;
 namespace Emojiverse.IO.Readers;
 
 public sealed class JpgReader : IAssetReader
-{
+{    
+    public readonly GraphicsDevice Device;
+    
+    public JpgReader(GraphicsDevice device) {
+        Device = device;
+    }
+    
     public async ValueTask<T> FromStream<T>(Stream stream, MainThreadCreationContext context) where T : class {
         if (typeof(T) != typeof(Texture2D)) {
             throw AssetLoadException.FromInvalidReader<JpgReader, T>();
@@ -16,6 +22,6 @@ public sealed class JpgReader : IAssetReader
 
         await context;
 
-        return (T)(object)Texture2D.FromStream(Main.graphics.GraphicsDevice, stream);
+        return (T)(object)Texture2D.FromStream(Device, stream);
     }
 }

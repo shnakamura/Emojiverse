@@ -13,6 +13,12 @@ namespace Emojiverse.IO.Readers;
 
 public sealed class GifReader : IAssetReader
 {
+    public readonly GraphicsDevice Device;
+    
+    public GifReader(GraphicsDevice device) {
+        Device = device;
+    }
+    
     public async ValueTask<T> FromStream<T>(Stream stream, MainThreadCreationContext context) where T : class {
         if (typeof(T) != typeof(Gif)) {
             throw AssetLoadException.FromInvalidReader<GifReader, T>();
@@ -35,7 +41,7 @@ public sealed class GifReader : IAssetReader
 
             await context;
 
-            frames[i] = Texture2D.FromStream(Main.graphics.GraphicsDevice, memoryStream);
+            frames[i] = Texture2D.FromStream(Device, memoryStream);
         }
 
         var frameDelayInfo = image.GetPropertyItem(0x5100);

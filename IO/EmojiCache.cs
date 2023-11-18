@@ -1,53 +1,48 @@
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
-using Emojiverse.Graphics.Resources;
 using Emojiverse.IO.Readers;
-using Microsoft.Xna.Framework.Graphics;
-using MonoMod.RuntimeDetour;
 using ReLogic.Content;
 using ReLogic.Content.Readers;
 using ReLogic.Content.Sources;
+using ReLogic.Utilities;
 using Terraria;
 using Terraria.IO;
 using Terraria.ModLoader;
 using Terraria.ModLoader.Assets;
+using Microsoft.Xna.Framework;
 
 namespace Emojiverse.IO;
 
 public sealed class EmojiCache : ModSystem
 {
+    internal static AssetRepository Assets { get; private set; }
+    internal static EmojiverseContentSource Source { get; private set; }
+    
     private static readonly Dictionary<string, int> repeatedNamesCountByName = new();
-    internal static AssetRepository packsAssets;
-    static ResourcePacksContentSourceCollection source;
 
     public override void Load() {
-        var gd = Main.instance.GraphicsDevice;
-        AssetReaderCollection readers = new();
-        readers.RegisterReader(new GifReader(), ".gif");
-        readers.RegisterReader(new JpgReader(), ".jpg", ".jpeg");
-        readers.RegisterReader(new PngReader(gd), ".png");
-        readers.RegisterReader(new RawImgReader(gd), ".rawimg");
-        readers.RegisterReader(new XnbReader(Main.instance.Services), ".xnb");
-        source = new ResourcePacksContentSourceCollection();
-        packsAssets = new AssetRepository(readers, new IContentSource[] { source });
+        var device = Main.instance.GraphicsDevice;
+        var readers = Main.instance.Services.Get<AssetReaderCollection>();
+        
+        readers.RegisterReader(new GifReader(device), ".gif");
+        readers.RegisterReader(new JpgReader(device), ".jpg", ".jpeg");
+        
+        Source = new EmojiverseContentSource();
+        Assets = new AssetRepository(readers, new IContentSource[] { Source });
 
         Main.AssetSourceController.OnResourcePackChange += ReloadFromList;
-        PostSetupContent();
-        On_Main.DoUpdate += On_Main_DoUpdate;
-    }
-
-    private void On_Main_DoUpdate(On_Main.orig_DoUpdate orig, Main self, ref Microsoft.Xna.Framework.GameTime gameTime) {
-        orig(self, ref gameTime);
-        packsAssets.TransferCompletedAssets();
+        ReloadFromList(Main.AssetSourceController.ActiveResourcePackList);
+        On_Main.DoUpdate += DoUpdateHook;
     }
 
     public override void PostSetupContent() {
         ReloadFromList(Main.AssetSourceController.ActiveResourcePackList);
     }
 
-    private void ReloadFromList(ResourcePackList list) {
-        source.Update(list);
+    private static void ReloadFromList(ResourcePackList list) {
+        Source.Update(list);
+        
         foreach (var pack in list.EnabledPacks) {
             foreach (var asset in pack.GetContentSource().EnumerateAssets()) {
                 var directory = Path.GetDirectoryName(asset);
@@ -59,26 +54,21 @@ public sealed class EmojiCache : ModSystem
 
                 var name = Path.GetFileNameWithoutExtension(asset);
                 var alias = name;
-<<<<<<< HEAD
-                
-=======
 
->>>>>>> a00dbebaff35d30426216b8dfb06cc3c9c227347
                 if (!repeatedNamesCountByName.TryGetValue(name, out var count)) {
                     repeatedNamesCountByName[name] = 1;
                     continue;
                 }
-<<<<<<< HEAD
-               
-                alias += $"~{count}";
                 
+                alias += $"~{count}";
                 repeatedNamesCountByName[name]++;
-=======
-
->>>>>>> a00dbebaff35d30426216b8dfb06cc3c9c227347
             }
         }
     }
+    
+    private static void DoUpdateHook(On_Main.orig_DoUpdate orig, Main self, ref GameTime gameTime) {
+        orig(self, ref gameTime);
+        
+        Assets.TransferCompletedAssets();
+    }
 }
-
-
