@@ -1,7 +1,10 @@
-﻿using Emojiverse.IO.Readers;
+﻿using Emojiverse.Graphics.Resources;
+using Emojiverse.IO;
+using Emojiverse.IO.Readers;
 using ReLogic.Content;
 using ReLogic.Content.Sources;
 using ReLogic.Utilities;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -16,5 +19,8 @@ public sealed class Emojiverse : Mod
         collection.RegisterReader(new JpgReader(), ".jpg", ".jpeg");
 
         return base.CreateDefaultContentSource();
+    }
+    public override void Load() {
+        base.Load();
     }
 }
