@@ -1,11 +1,18 @@
+<<<<<<< HEAD
 ﻿using System;
 using System.Collections.Generic;
 using System.IO;
 using Emojiverse.IO.Readers;
 using Ionic.Zip;
+=======
+﻿using Emojiverse.Graphics.Resources;
+using Emojiverse.IO;
+using Emojiverse.IO.Readers;
+>>>>>>> a00dbebaff35d30426216b8dfb06cc3c9c227347
 using ReLogic.Content;
 using ReLogic.Content.Sources;
 using ReLogic.Utilities;
+using System;
 using Terraria;
 using Terraria.ModLoader;
 
@@ -75,5 +82,8 @@ public sealed class EmojiverseContentSource : ContentSource
         catch (Exception innerException) {
             throw AssetLoadException.FromMissingAsset(assetName, innerException);
         }
+    }
+    public override void Load() {
+        base.Load();
     }
 }
