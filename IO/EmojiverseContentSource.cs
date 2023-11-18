@@ -21,10 +21,10 @@ internal sealed class EmojiverseContentSource : ContentSource
         foreach (var pack in list.EnabledPacks) {
             var source = pack.GetContentSource();
             
-            sources[pack.Name] = source;
+            sources[pack.FileName] = source;
             
             foreach (var assetName in source.EnumerateAssets()) {
-                assetsWithPackName.Add($"{pack.Name}/{assetName}");
+                assetsWithPackName.Add($"{pack.FileName}/{assetName}");
             }
         }
 
