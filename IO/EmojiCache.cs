@@ -59,7 +59,7 @@ public sealed class EmojiCache : ModSystem
                     repeatedNamesCountByName[name] = 1;
                     continue;
                 }
-                
+
                 alias += $"~{count}";
                 repeatedNamesCountByName[name]++;
             }
