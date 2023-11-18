@@ -7,7 +7,7 @@ using Terraria.UI.Chat;
 
 namespace Emojiverse.Chat;
 
-public sealed class EmojiParsingSystem : ModSystem
+public sealed class EmojiChatSystem : ModSystem
 {
     private static readonly Regex MatchRegex = new(@":(\w+):", RegexOptions.Compiled);
 
