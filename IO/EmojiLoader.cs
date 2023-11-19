@@ -1,5 +1,8 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Diagnostics.CodeAnalysis;
 using System.IO;
+using System.Runtime.InteropServices;
 using Terraria;
 using Terraria.IO;
 using Terraria.ModLoader;
@@ -8,10 +11,9 @@ namespace Emojiverse.IO;
 
 public sealed class EmojiLoader : ModSystem
 {
-    private static readonly Dictionary<string, int> repeatedNamesCountByName = new();
-
-    public static List<Emoji> emojis = new();
-
+    public static Dictionary<int, Emoji> Emojis { get; set; } = new();
+    public static Dictionary<string, int> RepeatedNames { get; set; } = new();
+    
     public override void Load() {
         UpdateEmojis(Main.AssetSourceController.ActiveResourcePackList);
         
@@ -19,60 +21,52 @@ public sealed class EmojiLoader : ModSystem
     }
 
     public override void Unload() {
-        Main.AssetSourceController.OnResourcePackChange -= UpdateEmojis; // does not unload automatically
-        emojis?.Clear();
-        emojis?.TrimExcess();
-        repeatedNamesCountByName?.Clear();
-        repeatedNamesCountByName?.TrimExcess();
-    }
-
-    public override void PostSetupContent() {
-        UpdateEmojis(Main.AssetSourceController.ActiveResourcePackList);
+        Main.AssetSourceController.OnResourcePackChange -= UpdateEmojis; 
+        
+        Emojis.Clear();
+        Emojis = null;
+        
+        RepeatedNames.Clear();
+        RepeatedNames = null;
     }
 
     private static void UpdateEmojis(ResourcePackList list) {
-        repeatedNamesCountByName.Clear();
+        Emojis.Clear();
+        RepeatedNames.Clear();
         
         foreach (var pack in list.EnabledPacks) {
             foreach (var asset in pack.GetContentSource().EnumerateAssets()) {
-                var name = Path.GetFileNameWithoutExtension(asset);
-                var alias = name;
-
-                if (repeatedNamesCountByName.TryGetValue(name, out var count)) {
-                    alias += $"~{count}";
-                    repeatedNamesCountByName[name]++;
-                }
-                else {
-                    repeatedNamesCountByName[name] = 1;
-                }
-                
-                var emoji = new Emoji(alias, name, emojis.Count);
-                
-                var extension = Path.GetExtension(asset);
-                var path = $"{pack.Name}/Emojis/{name}";
-                path = path.Replace('\\', '/');
-
-                emoji.Animated = extension == ".gif";
-                emoji.Path = path;
-
-                emojis.Add(emoji);
+                Register(Path.Combine(pack.Name, Path.GetDirectoryName(asset), Path.GetFileNameWithoutExtension(asset)));
             } 
         }
     }
 
-    public static Emoji Get(int id) {
-        return emojis.Find(x => x.Id == id);
+    private static void Register(string path) {
+        var name = Path.GetFileNameWithoutExtension(path);
+        var alias = path;   
+
+        if (RepeatedNames.TryGetValue(name, out var count)) {
+            alias += $"~{count}";
+            RepeatedNames[name]++;
+        }
+        else {
+            RepeatedNames[name] = 1;        
+        }
+
+        var id = Emojis.Count;
+
+        Emojis[id] = new Emoji(alias, name, path, id);
     }
 
-    public static Emoji Get(string alias) {
-        return emojis.Find(x => x.Alias == alias);
+    public static bool TryGet(int id, [NotNullWhen(true)] out Emoji emoji) {
+        return Emojis.TryGetValue(id, out emoji);
     }
 
     public static bool Has(int id) {
-        return Get(id) != null;
+        return TryGet(id, out _);
     }
 
-    public static bool Has(string alias) {
-        return Get(alias) != null;
+    public static IEnumerable<Emoji> Enumerate() {
+        return Emojis.Values;
     }
 }

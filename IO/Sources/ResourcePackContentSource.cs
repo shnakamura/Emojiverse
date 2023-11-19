@@ -13,7 +13,7 @@ public sealed class ResourcePackContentSource : ContentSource
     public void Update(ResourcePackList list) {
         sourcesByName.Clear();
 
-        var assetsWithPackName = new List<string>();
+        var paths = new List<string>();
 
         foreach (var pack in list.EnabledPacks) {
             var source = pack.GetContentSource();
@@ -21,14 +21,11 @@ public sealed class ResourcePackContentSource : ContentSource
             sourcesByName[pack.Name] = source;
 
             foreach (var asset in source.EnumerateAssets()) {
-                var path = $"{pack.Name}/{asset}";
-                path = path.Replace('\\', '/');
-                
-                assetsWithPackName.Add(path);
+                paths.Add(Path.Combine(pack.Name, asset));
             }
         }
-
-        SetAssetNames(assetsWithPackName);
+        
+        SetAssetNames(paths);
     }
 
     public override Stream OpenStream(string fullAssetName) {
@@ -36,7 +33,7 @@ public sealed class ResourcePackContentSource : ContentSource
 
         var pack = fullAssetName.Substring(0, split);
         var name = fullAssetName.Substring(split + 1);
-
+        
         return sourcesByName[pack].OpenStream(name);
     }
 

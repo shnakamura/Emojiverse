@@ -17,13 +17,13 @@ Mods: {
 				}
 
 				EmojiDrawingScale: {
-                    Label: Escala de emojis.
-                    Tooltip: Ajusta la escala de los emojis en el chat. 
+					Label: Escala de emojis.
+					Tooltip: Ajusta la escala de los emojis en el chat.
 				}
 
 				EmojiDrawingResolution: {
-                    Label: Resolución de emojis
-                    Tooltip: Ajusta la resolución de los emojis en el chat. 
+					Label: Resolución de emojis
+					Tooltip: Ajusta la resolución de los emojis en el chat.
 				}
 			}
 		}

@@ -46,17 +46,20 @@ public sealed class Emojiverse : Mod
 
     public override void Unload() {
         if (Assets != null) {
-            var assets = Assets;
             Main.QueueMainThreadAction(() => {
-                assets.TransferCompletedAssets();
-                assets.Dispose();
+                Assets.TransferCompletedAssets();
+                Assets.Dispose();
             });
         }
+        
         Assets = null;
+        
         Source?.Clear();
         Source = null;
+        
         On_Main.DoUpdate -= DoUpdateHook;
-        Main.AssetSourceController.OnResourcePackChange -= UpdateSource; // does not unload automatically
+        
+        Main.AssetSourceController.OnResourcePackChange -= UpdateSource; 
     }
 
     private static void UpdateSource(ResourcePackList list) {

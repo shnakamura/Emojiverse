@@ -9,13 +9,11 @@ namespace Emojiverse.Chat;
 public sealed class EmojiTagHandler : ITagHandler
 {
     public TextSnippet Parse(string text, Color baseColor = default, string options = null) {
-        var id = int.Parse(text);
-        
-        if (!EmojiLoader.Has(id)) {
+        if (!int.TryParse(text, out var id) || !EmojiLoader.TryGet(id, out var emoji)) {
             return new TextSnippet(text);
         };
         
-        return new EmojiTagSnippet(EmojiLoader.Get(id)) {
+        return new EmojiTagSnippet(emoji) {
             CheckForHover = true,
             DeleteWhole = true
         };
