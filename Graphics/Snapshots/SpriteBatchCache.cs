@@ -70,6 +70,7 @@ public sealed class SpriteBatchCache : ModSystem
 
         Capture = method.CreateDelegate<Func<SpriteBatch, SpriteBatchSnapshot>>();
     }
+    
     public override void Unload() {
         Capture = null;
     }

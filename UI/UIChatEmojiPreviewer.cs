@@ -1,6 +1,11 @@
-﻿using System.Collections.Generic;
+﻿using System;
+using System.Collections.Generic;
+using System.Linq;
+using Emojiverse.IO;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Microsoft.Xna.Framework.Input;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.GameContent;
 using Terraria.ModLoader;
@@ -14,7 +19,7 @@ public sealed class UIChatEmojiPreviewer : UIState
         if (!Main.drawingPlayerChat) {
             return;
         }
-        
+
         base.Update(gameTime);
     }
 
@@ -23,10 +28,14 @@ public sealed class UIChatEmojiPreviewer : UIState
             return;
         }
 
-        var rectangle = new Rectangle(88, Main.screenHeight - 30, Main.screenWidth / 2, 20);
+        var elementHeight = 20;
+        var maxElements = 20;
         
-        spriteBatch.Draw(TextureAssets.MagicPixel.Value, rectangle, Color.Black * 0.5f);
-        
+        var menuHeight = maxElements * elementHeight;
+        var rectangle = new Rectangle(78, Main.screenHeight - menuHeight - 40, Main.screenWidth / 4, menuHeight);
+
+        spriteBatch.Draw(TextureAssets.MagicPixel.Value, rectangle, Color.Black * 0.75f);
+
         base.Draw(spriteBatch);
     }
 }
@@ -35,7 +44,7 @@ public sealed class UIChatEmojiPreviewerSystem : ModSystem
 {
     public UIChatEmojiPreviewer State { get; private set; }
     public UserInterface UserInterface { get; private set; }
-    
+
     public override void Load() {
         State = new UIChatEmojiPreviewer();
         State.Activate();
@@ -54,7 +63,7 @@ public sealed class UIChatEmojiPreviewerSystem : ModSystem
         if (layer == -1) {
             return;
         }
-        
+
         layers.Insert(
             layer + 1,
             new LegacyGameInterfaceLayer(

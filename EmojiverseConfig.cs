@@ -16,7 +16,7 @@ public sealed class EmojiverseConfig : ModConfig
 
     [Header("Chat")]
     [Slider]
-    [Range(1f, 0.5f)]
+    [Range(0.5f, 1f)]
     [DefaultValue(1f)]
     public float EmojiDrawingScale { get; set; } = 1f;
     
