@@ -1,4 +1,4 @@
-﻿Mods: {
+Mods: {
 	Emojiverse: {
 		Messages.Undetected: 未偵測到表情符號包.如果這不是有意的，請檢查您啟用的資源包。
 
@@ -14,6 +14,16 @@
 				EnableWarningMessages: {
 					Label: 啟用警告訊息
 					Tooltip: 切換警告訊息，例如未偵測到的表情符號包或其他潛在問題。
+				}
+
+				EmojiDrawingScale: {
+					// Label: Emoji Drawing Scale
+					// Tooltip: Adjusts the scale at which emojis are drawn in chat.
+				}
+
+				EmojiDrawingResolution: {
+					// Label: Emoji Drawing Resolution
+					// Tooltip: Adjusts the resolution at which emojis are drawn in chat.
 				}
 			}
 		}

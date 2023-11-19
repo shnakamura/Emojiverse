@@ -15,9 +15,13 @@ public sealed class EmojiverseConfig : ModConfig
     public bool EnableWarningMessages { get; set; } = true;
 
     [Header("Chat")]
+    [Slider]
+    [Range(1f, 0.5f)]
     [DefaultValue(1f)]
-    public float DrawingScale { get; set; } = 1f;
+    public float EmojiDrawingScale { get; set; } = 1f;
     
+    [Slider]
+    [Range(1, 4)]
     [DefaultValue(1)]
-    public int DrawingResolution { get; set; } = 1;
+    public int EmojiDrawingResolution { get; set; } = 1;
 }

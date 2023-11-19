@@ -12,8 +12,18 @@ Mods: {
 				}
 
 				EnableWarningMessages: {
-					Label: Ativar mensagens de aviso
+					Label: Ativar Mensagens de Aviso
 					Tooltip: Habilita mensagens de aviso, como para packs de emoji nao detectados, ou outros possiveis problemas.
+				}
+
+				EmojiDrawingScale: {
+					Label: Tamanho de Renderização de Emojis
+					Tooltip: Ajusta o tamanho no qual emojis são renderizados no chat.
+				}
+
+				EmojiDrawingResolution: {
+				    Label: Resolução de Renderização de Emojis
+					Tooltip: Ajusta a resolução na qual emojis são renderizados no chat.
 				}
 			}
 		}
