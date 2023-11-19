@@ -66,6 +66,10 @@ public sealed class EmojiLoader : ModSystem
         return TryGet(id, out _);
     }
 
+    public static bool HasAny() {
+        return Emojis.Count > 0;
+    }
+
     public static IEnumerable<Emoji> Enumerate() {
         return Emojis.Values;
     }

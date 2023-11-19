@@ -15,6 +15,7 @@ public sealed class Emoji
     internal Emoji(string alias, string name, string path, int id) {
         Alias = alias;
         Name = name;
+        Path = path;
         Id = id;
     }
 }   
