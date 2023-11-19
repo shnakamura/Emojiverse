@@ -11,28 +11,34 @@ namespace Emojiverse.IO;
 
 public sealed class EmojiLoader : ModSystem
 {
-    public static Dictionary<int, Emoji> Emojis { get; set; } = new();
-    public static Dictionary<string, int> RepeatedNames { get; set; } = new();
+    public static Dictionary<int, Emoji> Emojis { get; private set; }
+    public static Dictionary<string, int> RepeatedNames { get; private set; }
     
     public override void Load() {
+        Emojis = new Dictionary<int, Emoji>();
+        RepeatedNames = new Dictionary<string, int>();
+        
         UpdateEmojis(Main.AssetSourceController.ActiveResourcePackList);
         
         Main.AssetSourceController.OnResourcePackChange += UpdateEmojis;
     }
 
     public override void Unload() {
-        Main.AssetSourceController.OnResourcePackChange -= UpdateEmojis; 
-        
         Emojis.Clear();
         Emojis = null;
         
         RepeatedNames.Clear();
         RepeatedNames = null;
+        
+        Main.AssetSourceController.OnResourcePackChange -= UpdateEmojis; 
     }
 
     private static void UpdateEmojis(ResourcePackList list) {
         Emojis.Clear();
+        Emojis.TrimExcess();
+        
         RepeatedNames.Clear();
+        RepeatedNames.TrimExcess();
         
         foreach (var pack in list.EnabledPacks) {
             foreach (var asset in pack.GetContentSource().EnumerateAssets()) {

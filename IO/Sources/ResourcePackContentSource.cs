@@ -29,12 +29,10 @@ public sealed class ResourcePackContentSource : ContentSource
     }
 
     public override Stream OpenStream(string fullAssetName) {
-        var split = fullAssetName.IndexOf('\\');
+        var pack = Path.GetDirectoryName(Path.GetDirectoryName(fullAssetName));
+        var path = Path.Combine(Path.GetRelativePath(pack, fullAssetName));
 
-        var pack = fullAssetName.Substring(0, split);
-        var name = fullAssetName.Substring(split + 1);
-        
-        return sourcesByName[pack].OpenStream(name);
+        return sourcesByName[pack].OpenStream(path);
     }
 
     public void Clear() {

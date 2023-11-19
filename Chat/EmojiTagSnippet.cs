@@ -36,7 +36,7 @@ public sealed class EmojiTagSnippet : TextSnippet
 
         if (!justCheckingString && notDrawingOutline) {
             if (Emoji.Animated) {
-                var gif = Emojiverse.Assets.Request<Gif>(Emoji.Path).Value;
+                var gif = EmojiRepository.Assets.Request<Gif>(Emoji.Path).Value;
 
                 frameCounter++;
 
@@ -76,7 +76,7 @@ public sealed class EmojiTagSnippet : TextSnippet
                 spriteBatch.Begin(in originalSnapshot);
             }
             else {
-                var texture = Emojiverse.Assets.Request<Texture2D>(Emoji.Path).Value;
+                var texture = EmojiRepository.Assets.Request<Texture2D>(Emoji.Path).Value;
 
                 var frame = texture.Frame();
                 var origin = frame.Size() / 2f;
