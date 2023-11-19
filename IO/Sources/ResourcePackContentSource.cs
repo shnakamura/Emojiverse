@@ -21,13 +21,10 @@ public sealed class ResourcePackContentSource : ContentSource
             sourcesByName[pack.Name] = source;
 
             foreach (var asset in source.EnumerateAssets()) {
-                var path = $"{pack.Name}/{Path.GetFileNameWithoutExtension(asset)}";
+                var path = $"{pack.Name}/{asset}";
                 path = path.Replace('\\', '/');
                 
                 assetsWithPackName.Add(path);
-
-                
-                ModContent.GetInstance<Emojiverse>().Logger.Debug($"Asset: {asset} @ Pack: {pack.Name} @ Path: {path}");
             }
         }
 

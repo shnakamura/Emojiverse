@@ -23,6 +23,8 @@ public sealed class EmojiLoader : ModSystem
     }
 
     private static void UpdateEmojis(ResourcePackList list) {
+        repeatedNamesCountByName.Clear();
+        
         foreach (var pack in list.EnabledPacks) {
             foreach (var asset in pack.GetContentSource().EnumerateAssets()) {
                 var name = Path.GetFileNameWithoutExtension(asset);
@@ -39,14 +41,12 @@ public sealed class EmojiLoader : ModSystem
                 var emoji = new Emoji(alias, name, emojis.Count);
                 
                 var extension = Path.GetExtension(asset);
-                var path = $"{pack.Name}/{name}";
+                var path = $"{pack.Name}/Emojis/{name}";
                 path = path.Replace('\\', '/');
 
                 emoji.Animated = extension == ".gif";
                 emoji.Path = path;
 
-                ModContent.GetInstance<Emojiverse>().Logger.Debug($"Name: {name} @ Alias: {alias} @ Path: {path} @ Id: {emojis.Count}");
-                
                 emojis.Add(emoji);
             } 
         }

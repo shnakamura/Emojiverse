@@ -31,50 +31,52 @@ public sealed class EmojiTagSnippet : TextSnippet
         const int Size = 20;
 
         var notDrawingOutline = color.R != 0 || color.G != 0 || color.B != 0;
+        
+        size = new Vector2(Size);
 
         if (!justCheckingString && notDrawingOutline) {
             if (Emoji.Animated) {
-                var gif = Main.Assets.Request<Gif>(Emoji.Path).Value;
+                var gif = Emojiverse.Assets.Request<Gif>(Emoji.Path, AssetRequestMode.ImmediateLoad).Value;
 
                 frameCounter++;
 
                 if (frameCounter >= 1f / gif.FrameRate) {
                     frameCounter = 0f;
 
-                    if (frameIndex > gif.FrameCount) {
+                    if (frameIndex >= gif.Frames.Length - 1) {
                         frameIndex = 0;
+                        return true;
                     }
                     else {
                         frameIndex++;
                     }
                 }
-                else {
-                    var texture = gif.Frames[frameIndex];
+                
+                var texture = gif.Frames[frameIndex];
                     
-                    var frame = texture.Frame();
-                    var origin = frame.Size() / 2f;
+                var frame = texture.Frame();
+                var origin = frame.Size() / 2f;
 
-                    var area = new Vector2(Size);
-                    var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
-                    var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
+                var area = new Vector2(Size);
+                var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
+                var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
                     
-                    var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-                    var modifiedSnapshot = originalSnapshot with {
-                        SortMode = SpriteSortMode.Texture,
-                        SamplerState = SamplerState.PointClamp
-                    };
+                var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
+                var modifiedSnapshot = originalSnapshot with {
+                    SortMode = SpriteSortMode.Texture,
+                    SamplerState = SamplerState.PointClamp
+                };
 
-                    spriteBatch.End();
-                    spriteBatch.Begin(in modifiedSnapshot);
+                spriteBatch.End();
+                spriteBatch.Begin(in modifiedSnapshot);
             
-                    spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
+                spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
 
-                    spriteBatch.End();
-                    spriteBatch.Begin(in originalSnapshot);
-                }
+                spriteBatch.End();
+                spriteBatch.Begin(in originalSnapshot);
             }
             else {
-                var texture = Main.Assets.Request<Texture2D>(Emoji.Path).Value;
+                var texture = Emojiverse.Assets.Request<Texture2D>(Emoji.Path, AssetRequestMode.ImmediateLoad).Value;
 
                 var frame = texture.Frame();
                 var origin = frame.Size() / 2f;
@@ -99,7 +101,6 @@ public sealed class EmojiTagSnippet : TextSnippet
             }
         }
 
-        size = new Vector2(Size);
 
         return true;
     }
