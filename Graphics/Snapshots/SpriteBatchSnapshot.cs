@@ -2,7 +2,7 @@
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 
-namespace Emojiverse.Graphics;
+namespace Emojiverse.Graphics.Snapshots;
 
 public readonly record struct SpriteBatchSnapshot(
     SpriteSortMode SortMode,

@@ -14,4 +14,4 @@ public sealed class Emoji
         Name = name;
         Id = id;
     }
-}
+}   

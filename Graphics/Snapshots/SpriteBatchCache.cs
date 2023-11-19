@@ -3,32 +3,25 @@ using System.Reflection;
 using System.Reflection.Emit;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
+using Terraria.ModLoader;
 
-namespace Emojiverse.Graphics;
+namespace Emojiverse.Graphics.Snapshots;
 
-public static class SpriteBatchCache
+public sealed class SpriteBatchCache : ModSystem
 {
-    private const BindingFlags FlagsPrivateInstance = BindingFlags.NonPublic | BindingFlags.Instance;
-
-    public static readonly FieldInfo SortMode;
-    public static readonly FieldInfo BlendState;
-    public static readonly FieldInfo SamplerState;
-    public static readonly FieldInfo DepthStencilState;
-    public static readonly FieldInfo RasterizerState;
-    public static readonly FieldInfo Effect;
-    public static readonly FieldInfo TransformMatrix;
+    private const BindingFlags Flags = BindingFlags.NonPublic | BindingFlags.Instance;
     
-    internal static readonly Func<SpriteBatch, SpriteBatchSnapshot> Capture;
+    public static readonly FieldInfo SortMode = typeof(SpriteBatch).GetField("sortMode", Flags);
+    public static readonly FieldInfo BlendState = typeof(SpriteBatch).GetField("blendState", Flags);
+    public static readonly FieldInfo SamplerState = typeof(SpriteBatch).GetField("samplerState", Flags);
+    public static readonly FieldInfo DepthStencilState = typeof(SpriteBatch).GetField("depthStencilState", Flags);
+    public static readonly FieldInfo RasterizerState = typeof(SpriteBatch).GetField("rasterizerState", Flags);
+    public static readonly FieldInfo Effect = typeof(SpriteBatch).GetField("customEffect", Flags);
+    public static readonly FieldInfo TransformMatrix = typeof(SpriteBatch).GetField("transformMatrix", Flags);
+    
+    internal static Func<SpriteBatch, SpriteBatchSnapshot> Capture { get; private set; }
 
-    static SpriteBatchCache() {
-        SortMode = typeof(SpriteBatch).GetField("sortMode", FlagsPrivateInstance);
-        BlendState = typeof(SpriteBatch).GetField("blendState", FlagsPrivateInstance);
-        SamplerState = typeof(SpriteBatch).GetField("samplerState", FlagsPrivateInstance);
-        DepthStencilState = typeof(SpriteBatch).GetField("depthStencilState", FlagsPrivateInstance);
-        RasterizerState = typeof(SpriteBatch).GetField("rasterizerState", FlagsPrivateInstance);
-        Effect = typeof(SpriteBatch).GetField("customEffect", FlagsPrivateInstance);
-        TransformMatrix = typeof(SpriteBatch).GetField("transformMatrix", FlagsPrivateInstance);
-
+    public override void Load() {
         var method = new DynamicMethod(
             "SpritebatchSnapshotAccessor",
             typeof(SpriteBatchSnapshot),
@@ -38,10 +31,10 @@ public static class SpriteBatchCache
             typeof(SpriteBatch)
         );
         
+        method.DefineParameter(0, ParameterAttributes.None, "spriteBatch");
+
         var il = method.GetILGenerator();
         var result = il.DeclareLocal(typeof(SpriteBatchSnapshot));
-        
-        method.DefineParameter(0, ParameterAttributes.None, "spritebatch");
 
         il.Emit(OpCodes.Ldloca, result);
         il.Emit(OpCodes.Ldarg_0);
@@ -76,9 +69,5 @@ public static class SpriteBatchCache
         il.Emit(OpCodes.Ret);
 
         Capture = method.CreateDelegate<Func<SpriteBatch, SpriteBatchSnapshot>>();
-    }
-
-    public static void Begin(this SpriteBatch spriteBatch, in SpriteBatchSnapshot snapshot) {
-        spriteBatch.Begin(snapshot.SortMode, snapshot.BlendState, snapshot.SamplerState, snapshot.DepthStencilState, snapshot.RasterizerState, snapshot.Effect, snapshot.TransformMatrix);
     }
 }
