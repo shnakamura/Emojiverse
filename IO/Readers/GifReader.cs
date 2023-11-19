@@ -49,6 +49,7 @@ public sealed class GifReader : IAssetReader
         var frameRate = frameCount * 1000 / frameDelay;
 
         var gif = new Gif(frames, frameCount, frameRate);
+        gif.OwnsTextures = true;
 
         return (T)(object)gif;
     }

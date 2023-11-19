@@ -18,6 +18,14 @@ public sealed class EmojiLoader : ModSystem
         Main.AssetSourceController.OnResourcePackChange += UpdateEmojis;
     }
 
+    public override void Unload() {
+        Main.AssetSourceController.OnResourcePackChange -= UpdateEmojis; // does not unload automatically
+        emojis?.Clear();
+        emojis?.TrimExcess();
+        repeatedNamesCountByName?.Clear();
+        repeatedNamesCountByName?.TrimExcess();
+    }
+
     public override void PostSetupContent() {
         UpdateEmojis(Main.AssetSourceController.ActiveResourcePackList);
     }

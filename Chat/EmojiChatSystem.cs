@@ -1,4 +1,6 @@
-﻿using System.Collections.Generic;
+﻿using System.Collections;
+using System.Collections.Generic;
+using System.Reflection;
 using System.Text.RegularExpressions;
 using Microsoft.Xna.Framework;
 using Terraria;
@@ -13,5 +15,14 @@ public sealed class EmojiChatSystem : ModSystem
 
     public override void OnModLoad() {
         ChatManager.Register<EmojiTagHandler>("e", "emoji", "emote");
+    }
+
+    public override void Unload() {
+        if (typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static)?.GetValue(null) is IDictionary dict) {
+            foreach (string name in new string[] { "e", "emoji", "emote" }) {
+                dict.Remove(name);
+            }
+        }
+        Main.NewText("A");
     }
 }

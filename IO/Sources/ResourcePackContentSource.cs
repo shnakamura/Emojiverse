@@ -39,4 +39,9 @@ public sealed class ResourcePackContentSource : ContentSource
 
         return sourcesByName[pack].OpenStream(name);
     }
+
+    public void Clear() {
+        sourcesByName.Clear();
+        sourcesByName.TrimExcess();
+    }
 }
