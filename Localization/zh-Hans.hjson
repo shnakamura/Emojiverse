@@ -17,13 +17,13 @@ Mods: {
 				}
 
 				EmojiDrawingScale: {
-					// Label: Emoji Drawing Scale
-					// Tooltip: Adjusts the scale at which emojis are drawn in chat.
+					Label: 繪圖比例
+					Tooltip: 調整聊天中表情符號的比例。
 				}
 
 				EmojiDrawingResolution: {
-					// Label: Emoji Drawing Resolution
-					// Tooltip: Adjusts the resolution at which emojis are drawn in chat.
+					Label: Emoji 繪圖分辨率
+					Tooltip: 調整聊天中表情符號的解析度。
 				}
 			}
 		}
