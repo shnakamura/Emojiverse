@@ -12,25 +12,6 @@ public sealed class EmojiChatSystem : ModSystem
     private static readonly Regex MatchRegex = new(@":(\w+):", RegexOptions.Compiled);
 
     public override void OnModLoad() {
-        On_ChatManager.ParseMessage += ParseMessageHook;
-
         ChatManager.Register<EmojiTagHandler>("e", "emoji", "emote");
-    }
-
-    private static List<TextSnippet> ParseMessageHook(On_ChatManager.orig_ParseMessage orig, string text, Color baseColor) {
-        if (Main.gameMenu) {
-            return orig(text, baseColor);
-        }
-
-        const string replacePattern = @"[e:$1]";
-        const string dummyCharacter = @"\x01";
-
-        text = text.Replace("\\:", dummyCharacter);
-        
-        var parsed = MatchRegex.Replace(text, replacePattern);
-        
-        parsed = parsed.Replace(dummyCharacter, ":");
-
-        return orig(parsed, baseColor);
     }
 }

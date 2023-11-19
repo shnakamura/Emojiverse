@@ -22,7 +22,7 @@ Mods: {
 				}
 
 				EmojiDrawingResolution: {
-				    Label: Resolução de Renderização de Emojis
+					Label: Resolução de Renderização de Emojis
 					Tooltip: Ajusta a resolução na qual emojis são renderizados no chat.
 				}
 			}

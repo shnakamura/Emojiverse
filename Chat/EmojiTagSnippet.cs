@@ -1,5 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Emojiverse.Graphics;
+using Emojiverse.Graphics.Resources;
 using Emojiverse.Graphics.Snapshots;
 using Emojiverse.IO;
 using Emojiverse.Utilities.Extensions;
@@ -14,6 +15,9 @@ namespace Emojiverse.Chat;
 public sealed class EmojiTagSnippet : TextSnippet
 {
     public readonly Emoji Emoji;
+
+    private float frameCounter;
+    private int frameIndex;
     
     public EmojiTagSnippet(Emoji emoji) {
         Emoji = emoji;
@@ -29,28 +33,70 @@ public sealed class EmojiTagSnippet : TextSnippet
         var notDrawingOutline = color.R != 0 || color.G != 0 || color.B != 0;
 
         if (!justCheckingString && notDrawingOutline) {
-            var texture = Main.Assets.Request<Texture2D>("Emojis/" + Emoji.Name).Value;
+            if (Emoji.Animated) {
+                var gif = Main.Assets.Request<Gif>(Emoji.Path).Value;
 
-            var frame = texture.Frame();
-            var origin = frame.Size() / 2f;
+                frameCounter++;
 
-            var area = new Vector2(Size);
-            var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
-            var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
+                if (frameCounter >= 1f / gif.FrameRate) {
+                    frameCounter = 0f;
 
-            var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-            var modifiedSnapshot = originalSnapshot with {
-                SortMode = SpriteSortMode.Texture,
-                SamplerState = SamplerState.PointClamp
-            };
+                    if (frameIndex > gif.FrameCount) {
+                        frameIndex = 0;
+                    }
+                    else {
+                        frameIndex++;
+                    }
+                }
+                else {
+                    var texture = gif.Frames[frameIndex];
+                    
+                    var frame = texture.Frame();
+                    var origin = frame.Size() / 2f;
 
-            spriteBatch.End();
-            spriteBatch.Begin(in modifiedSnapshot);
+                    var area = new Vector2(Size);
+                    var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
+                    var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
+                    
+                    var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
+                    var modifiedSnapshot = originalSnapshot with {
+                        SortMode = SpriteSortMode.Texture,
+                        SamplerState = SamplerState.PointClamp
+                    };
+
+                    spriteBatch.End();
+                    spriteBatch.Begin(in modifiedSnapshot);
             
-            spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
+                    spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
 
-            spriteBatch.End();
-            spriteBatch.Begin(in originalSnapshot);
+                    spriteBatch.End();
+                    spriteBatch.Begin(in originalSnapshot);
+                }
+            }
+            else {
+                var texture = Main.Assets.Request<Texture2D>(Emoji.Path).Value;
+
+                var frame = texture.Frame();
+                var origin = frame.Size() / 2f;
+
+                var area = new Vector2(Size);
+                var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
+                var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
+
+                var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
+                var modifiedSnapshot = originalSnapshot with {
+                    SortMode = SpriteSortMode.Texture,
+                    SamplerState = SamplerState.PointClamp
+                };
+
+                spriteBatch.End();
+                spriteBatch.Begin(in modifiedSnapshot);
+            
+                spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
+
+                spriteBatch.End();
+                spriteBatch.Begin(in originalSnapshot);
+            }
         }
 
         size = new Vector2(Size);

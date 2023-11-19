@@ -4,6 +4,9 @@ namespace Emojiverse.IO;
 
 public sealed class Emoji
 {
+    public string Path;
+    public bool Animated;
+    
     public string Alias { get; }
     public string Name { get; }
     

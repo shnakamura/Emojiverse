@@ -2,14 +2,11 @@
 using System.IO;
 using ReLogic.Content.Sources;
 using Terraria.IO;
+using Terraria.ModLoader;
 
 namespace Emojiverse.IO.Sources;
 
-/// <summary>
-///     A content source that retrieves assets from the currently enabled resource packs.<br/>
-///     Wraps asset names from 'Path/Asset' to 'ResourcePack/ath/assetName'.
-/// </summary>
-internal sealed class ResourcePackContentSource : ContentSource
+public sealed class ResourcePackContentSource : ContentSource
 {
     private readonly Dictionary<string, IContentSource> sourcesByName = new();
 
@@ -21,10 +18,16 @@ internal sealed class ResourcePackContentSource : ContentSource
         foreach (var pack in list.EnabledPacks) {
             var source = pack.GetContentSource();
 
-            sourcesByName[pack.FileName] = source;
+            sourcesByName[pack.Name] = source;
 
             foreach (var asset in source.EnumerateAssets()) {
-                assetsWithPackName.Add($"{pack.FileName}/{asset}");
+                var path = $"{pack.Name}/{Path.GetFileNameWithoutExtension(asset)}";
+                path = path.Replace('\\', '/');
+                
+                assetsWithPackName.Add(path);
+
+                
+                ModContent.GetInstance<Emojiverse>().Logger.Debug($"Asset: {asset} @ Pack: {pack.Name} @ Path: {path}");
             }
         }
 

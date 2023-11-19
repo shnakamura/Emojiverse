@@ -16,15 +16,15 @@ Mods: {
 					Tooltip: Active les messages d'avertissement, comme des packs d'emojis non détectés, ou autres problèmes potentiels.
 				}
 
-                EmojiDrawingScale: {
-                    Label: Échelle de Rendu des Emojis
-                    Tooltip: Ajuste l'échelle à laquelle sont affichés les emojis dans le chat.
-                }
+				EmojiDrawingScale: {
+					Label: Échelle de Rendu des Emojis
+					Tooltip: Ajuste l'échelle à laquelle sont affichés les emojis dans le chat.
+				}
 
-                EmojiDrawingResolution: {
-                    Label: Résolution de Rendu des Emojis
-                    Tooltip: Ajuste la résolution à laquelle sont affichés les emojis dans le chat.
-                }
+				EmojiDrawingResolution: {
+					Label: Résolution de Rendu des Emojis
+					Tooltip: Ajuste la résolution à laquelle sont affichés les emojis dans le chat.
+				}
 			}
 		}
 	}

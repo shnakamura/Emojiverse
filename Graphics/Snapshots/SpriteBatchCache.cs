@@ -19,7 +19,7 @@ public sealed class SpriteBatchCache : ModSystem
     public static readonly FieldInfo Effect = typeof(SpriteBatch).GetField("customEffect", Flags);
     public static readonly FieldInfo TransformMatrix = typeof(SpriteBatch).GetField("transformMatrix", Flags);
     
-    internal static Func<SpriteBatch, SpriteBatchSnapshot> Capture { get; private set; }
+    public static Func<SpriteBatch, SpriteBatchSnapshot> Capture { get; private set; }
 
     public override void Load() {
         var method = new DynamicMethod(

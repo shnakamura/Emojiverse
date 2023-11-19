@@ -12,8 +12,8 @@ namespace Emojiverse;
 
 public sealed class Emojiverse : Mod
 {
-    internal static ResourcePackContentSource Source { get; private set; }
-    internal static AssetRepository Assets { get; private set; }
+    public static ResourcePackContentSource Source { get; private set; }
+    public static AssetRepository Assets { get; private set; }
 
     public override void Load() {
         var device = Main.instance.GraphicsDevice;
@@ -32,8 +32,9 @@ public sealed class Emojiverse : Mod
         
         UpdateSource(Main.AssetSourceController.ActiveResourcePackList);
 
-        Main.AssetSourceController.OnResourcePackChange += UpdateSource;
         On_Main.DoUpdate += DoUpdateHook;
+        
+        Main.AssetSourceController.OnResourcePackChange += UpdateSource;
     }
 
     private static void UpdateSource(ResourcePackList list) {
