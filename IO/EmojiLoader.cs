@@ -58,7 +58,7 @@ public sealed class EmojiLoader : ModSystem
         Emojis[id] = new Emoji(alias, name, path, id);
     }
 
-    public static bool TryGet(int id, [NotNullWhen(true)] out Emoji emoji) {
+    public static bool TryGet(int id, [MaybeNullWhen(false)] out Emoji emoji) {
         return Emojis.TryGetValue(id, out emoji);
     }
 
