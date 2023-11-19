@@ -1,6 +1,7 @@
 ﻿using System;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using Terraria.ModLoader;
 
 namespace Emojiverse.Graphics.Resources;
 
@@ -11,11 +12,7 @@ public sealed class Gif : IDisposable
     public readonly int FrameRate;
     public readonly int FrameCount;
     
-    public Texture2D CurrentFrame { get; private set; }
-    
     public bool IsDisposed { get; private set; }
-
-    internal bool OwnsTextures { get; set; }
     
     public Gif(Texture2D[] frames, int frameRate, int frameCount) {
         Frames = frames;
@@ -29,9 +26,8 @@ public sealed class Gif : IDisposable
         }
 
         if (disposing) {
-            if (OwnsTextures) {
-                foreach (var texture in Frames)
-                    texture.Dispose();
+            foreach (var texture in Frames) {
+                texture.Dispose();
             }
         }
 

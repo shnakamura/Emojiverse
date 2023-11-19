@@ -8,6 +8,7 @@ using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
 using ReLogic.Content.Readers;
 using Terraria;
+using Terraria.ModLoader;
 
 namespace Emojiverse.IO.Readers;
 
@@ -49,7 +50,8 @@ public sealed class GifReader : IAssetReader
         var frameRate = frameCount * 1000 / frameDelay;
 
         var gif = new Gif(frames, frameCount, frameRate);
-        gif.OwnsTextures = true;
+        
+        ModContent.GetInstance<Emojiverse>().Logger.Debug($"Frames: {frames.Length} @ Count: {frameCount}");
 
         return (T)(object)gif;
     }

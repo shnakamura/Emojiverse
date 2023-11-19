@@ -19,8 +19,6 @@ public sealed class Emojiverse : Mod
     public static ResourcePackContentSource Source { get; private set; }
     public static new AssetRepository Assets { get; private set; }
 
-    internal AssetRepository ModAssets => base.Assets;
-
     public override void Load() {
         var device = Main.instance.GraphicsDevice;
         var readers = new AssetReaderCollection();
