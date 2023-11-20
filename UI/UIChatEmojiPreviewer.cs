@@ -19,61 +19,96 @@ namespace Emojiverse.UI;
 
 public sealed class UIChatEmojiPreviewer : UIState
 {
-    private List<Emoji> emojiSuggestions;
-    private readonly int maxElements = 10;
+    private const int MaxElements = 10;
+    
+    private const int ElementHeight = 20;
+    private const int ElementPadding = 4;
+
+    public List<Emoji> Suggestions { get; private set; } = new();
+    
     private int selectedIndex;
 
     public override void Update(GameTime gameTime) {
-        if (!Main.drawingPlayerChat) {
+        Suggestions.Clear();
+        Suggestions.TrimExcess();
+        
+        var input = Main.chatText;
+        var index = input.LastIndexOf(':');
+        
+        if (!Main.drawingPlayerChat && !string.IsNullOrEmpty(input) && index != -1 && input.Length >= 3) {
             return;
         }
 
-        emojiSuggestions = EmojiLoader.Enumerate().ToList();
-        
-        if (Main.keyState.IsKeyDown(Keys.Tab))
-        {
-            selectedIndex = (selectedIndex + 1) % emojiSuggestions.Count;
-        }
-        else if (Main.keyState.IsKeyDown(Keys.Up) && selectedIndex > 0)
-        {
-            selectedIndex--;
-        }
-        else if (Main.keyState.IsKeyDown(Keys.Down) && selectedIndex < emojiSuggestions.Count - 1)
-        {
-            selectedIndex++;
-        }
+        var content = input.Substring(index + 1);
 
+        var addedNames = new HashSet<Emoji>();
+
+        foreach (var emoji in EmojiLoader.Enumerate()) {
+            if (emoji.Name.StartsWith(content) 
+                && addedNames.Add(emoji)) {
+                Suggestions.Add(emoji);
+            } else if (emoji.Name.Contains(content) 
+                && !emoji.Name.StartsWith(content) 
+                && addedNames.Add(emoji)) {
+                Suggestions.Add(emoji);
+            }
+        }
+    
         base.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch) {
-        if (Main.drawingPlayerChat) {
+        if (!Main.drawingPlayerChat && Suggestions.Count > 0) {
             return;
         }
 
-        var startIdx = Math.Max(0, selectedIndex - maxElements / 2);
-        var endIdx = Math.Min(startIdx + maxElements, emojiSuggestions.Count);
+        var menuWidth = Main.screenWidth / 2;
+        var menuHeight = MaxElements * ElementHeight;
 
-        var menuHeight = maxElements * 20; 
-        var rectangle = new Rectangle(78, Main.screenHeight - menuHeight - 40, Main.screenWidth / 4, menuHeight);
+        if (Suggestions.Count < MaxElements) {
+            menuHeight = Suggestions.Count * ElementHeight;
+        }
+
+        var menuTop = Main.screenHeight - menuHeight - 40;
+        var menuLeft = 78;
+        
+        var rectangle = new Rectangle(menuLeft, menuTop, menuWidth, menuHeight);
 
         spriteBatch.Draw(TextureAssets.MagicPixel.Value, rectangle, Color.Black * 0.75f);
+        
+        var startIdx = Math.Max(0, selectedIndex - MaxElements / 2);
+        var endIdx = Math.Min(startIdx + MaxElements, Suggestions.Count);
 
+        var font = FontAssets.MouseText.Value;
+        
         for (var i = startIdx; i < endIdx; i++) {
-            var yPos = Main.screenHeight - menuHeight + (i - startIdx) * 20 - 44;
-
-            var sRect = new Rectangle(78, yPos, Main.screenWidth / 4, 20);
+            var elementTop = Main.screenHeight - menuHeight + (i - startIdx) * ElementHeight - 40;
+            var elementLeft = 82;
             
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch, 
-                FontAssets.MouseText.Value,
-                $"[e:{emojiSuggestions[i].Id}] :{emojiSuggestions[i].Name}:", 
-                new Vector2(82, yPos), 
+                font,
+                $"[e:{Suggestions[i].Id}]", 
+                new Vector2(elementLeft, elementTop), 
                 Color.White,
                 Color.Black,
                 0f,
                 default,
-                Vector2.One
+                new Vector2(1f)
+            );
+
+            var tagSize = new Vector2(20f);
+            
+            ChatManager.DrawColorCodedStringWithShadow(
+                Main.spriteBatch, 
+                font,
+                $":{Suggestions[i].Alias}:", 
+                new Vector2(elementLeft + tagSize.X, elementTop), 
+                Color.White,
+                Color.Black,
+                0f,
+                default,
+                new Vector2(1f)
             );
         }
 

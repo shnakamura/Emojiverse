@@ -1,6 +1,8 @@
 ﻿using System.Collections;
+using System.Collections.Generic;
 using System.Collections.Immutable;
 using System.Reflection;
+using Microsoft.Xna.Framework;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -18,6 +20,8 @@ public sealed class EmojiChatSystem : ModSystem
     
     public override void Load() {
         ChatManager.Register<EmojiTagHandler>(names);
+        
+        On_ChatManager.ParseMessage += ParseMessageHook;
     }
 
     public override void Unload() {
@@ -26,5 +30,9 @@ public sealed class EmojiChatSystem : ModSystem
                 dictionary.Remove(name);
             }
         }
+    }
+    
+    private static List<TextSnippet> ParseMessageHook(On_ChatManager.orig_ParseMessage orig, string text, Color baseColor) {
+        return orig(text, baseColor);
     }
 }
