@@ -43,12 +43,12 @@ public sealed class UIChatEmojiPreviewer : UIState
         var addedNames = new HashSet<Emoji>();
 
         foreach (var emoji in EmojiLoader.EnumerateEmojis()) {
-            if (emoji.Name.StartsWith(content)
+            if (emoji.Alias.StartsWith(content)
                 && addedNames.Add(emoji)) {
                 Suggestions.Add(emoji);
             }
-            else if (emoji.Name.Contains(content)
-                && !emoji.Name.StartsWith(content)
+            else if (emoji.Alias.Contains(content)
+                && !emoji.Alias.StartsWith(content)
                 && addedNames.Add(emoji)) {
                 Suggestions.Add(emoji);
             }
