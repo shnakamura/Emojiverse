@@ -76,20 +76,23 @@ public sealed class UIChatEmojiPreviewer : UIState
 
         spriteBatch.Draw(TextureAssets.MagicPixel.Value, rectangle, Color.Black * 0.75f);
         
-        var startIdx = Math.Max(0, selectedIndex - MaxElements / 2);
-        var endIdx = Math.Min(startIdx + MaxElements, Suggestions.Count);
+        var start = Math.Max(0, selectedIndex - MaxElements / 2);
+        var end = Math.Min(start + MaxElements, Suggestions.Count);
 
         var font = FontAssets.MouseText.Value;
         
-        for (var i = startIdx; i < endIdx; i++) {
-            var elementTop = Main.screenHeight - menuHeight + (i - startIdx) * ElementHeight - 40;
+        for (var i = start; i < end; i++) {
+            var elementTop = Main.screenHeight - menuHeight + (i - start) * ElementHeight - 40;
             var elementLeft = 82;
+
+            var tagText = $"[e:{Suggestions[i].Id}]";
+            var aliasText = $":{Suggestions[i].Alias}:";
             
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch, 
                 font,
                 $"[e:{Suggestions[i].Id}]", 
-                new Vector2(elementLeft, elementTop), 
+                new Vector2(elementLeft, elementTop - ElementPadding), 
                 Color.White,
                 Color.Black,
                 0f,
@@ -97,13 +100,11 @@ public sealed class UIChatEmojiPreviewer : UIState
                 new Vector2(1f)
             );
 
-            var tagSize = new Vector2(20f);
-            
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch, 
                 font,
-                $":{Suggestions[i].Alias}:", 
-                new Vector2(elementLeft + tagSize.X, elementTop), 
+                aliasText, 
+                new Vector2(elementLeft + 30, elementTop), 
                 Color.White,
                 Color.Black,
                 0f,

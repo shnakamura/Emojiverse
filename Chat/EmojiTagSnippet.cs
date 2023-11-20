@@ -7,6 +7,7 @@ using Emojiverse.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using ReLogic.Content;
+using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI.Chat;
 
@@ -86,5 +87,9 @@ public sealed class EmojiTagSnippet : TextSnippet
         size = new Vector2(Size);
 
         return true;
+    }
+
+    public override float GetStringLength(DynamicSpriteFont font) {
+        return Size;
     }
 }
