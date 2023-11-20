@@ -18,7 +18,7 @@ public sealed class EmojiRepository : ModSystem
     public override void Load() {
         var device = Main.instance.GraphicsDevice;
         var readers = new AssetReaderCollection();
-
+        
         readers.RegisterReader(new PngReader(device), ".png");
         readers.RegisterReader(new GifReader(device), ".gif");
         readers.RegisterReader(new JpgReader(device), ".jpg", ".jpeg", ".jpe");
@@ -41,8 +41,8 @@ public sealed class EmojiRepository : ModSystem
     public override void Unload() {
         Main.QueueMainThreadAction(
             () => {
-                Assets.TransferCompletedAssets();
-                Assets.Dispose();
+                Assets?.TransferCompletedAssets();
+                Assets?.Dispose();
             }
         );
 

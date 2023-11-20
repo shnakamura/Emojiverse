@@ -1,7 +1,6 @@
 ﻿using System.Diagnostics.CodeAnalysis;
 using Emojiverse.Graphics;
 using Emojiverse.Graphics.Resources;
-using Emojiverse.Graphics.Snapshots;
 using Emojiverse.IO;
 using Emojiverse.Utilities.Extensions;
 using Microsoft.Xna.Framework;
@@ -69,19 +68,7 @@ public sealed class EmojiTagSnippet : TextSnippet
             var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
             var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size * scaleMultiplier), (int)(Size * scaleMultiplier));
 
-            var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-            var modifiedSnapshot = originalSnapshot with {
-                SortMode = SpriteSortMode.Texture,
-                SamplerState = SamplerState.PointClamp
-            };
-            
-            spriteBatch.End();
-            spriteBatch.Begin(in modifiedSnapshot);
-
             spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
-
-            spriteBatch.End();
-            spriteBatch.Begin(in originalSnapshot);
         }
 
         size = new Vector2(Size);

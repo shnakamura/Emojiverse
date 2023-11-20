@@ -20,11 +20,6 @@ Mods: {
 					Label: Tamanho de Renderização de Emojis
 					Tooltip: Ajusta o tamanho no qual emojis são renderizados no chat.
 				}
-
-				EmojiDrawingResolution: {
-					Label: Resolução de Renderização de Emojis
-					Tooltip: Ajusta a resolução na qual emojis são renderizados no chat.
-				}
 			}
 		}
 	}

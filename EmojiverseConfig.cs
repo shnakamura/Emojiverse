@@ -19,9 +19,4 @@ public sealed class EmojiverseConfig : ModConfig
     [Range(0.5f, 1f)]
     [DefaultValue(1f)]
     public float EmojiDrawingScale { get; set; } = 1f;
-    
-    [Slider]
-    [Range(1, 4)]
-    [DefaultValue(1)]
-    public int EmojiDrawingResolution { get; set; } = 1;
 }

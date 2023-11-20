@@ -9,7 +9,7 @@ namespace Emojiverse.Chat;
 public sealed class EmojiTagHandler : ITagHandler
 {
     public TextSnippet Parse(string text, Color baseColor = default, string options = null) {
-        if (!int.TryParse(text, out var id) || !EmojiLoader.TryGet(id, out var emoji)) {
+        if (!int.TryParse(text, out var id) || !EmojiLoader.TryGetEmoji(id, out var emoji)) {
             return new TextSnippet(text);
         };
         

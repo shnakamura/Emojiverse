@@ -20,11 +20,6 @@ Mods: {
 					Label: Emoji Drawing Scale
 					Tooltip: Adjusts the scale at which emojis are drawn in chat.
 				}
-
-				EmojiDrawingResolution: {
-					Label: Emoji Drawing Resolution
-					Tooltip: Adjusts the resolution at which emojis are drawn in chat.
-				}
 			}
 		}
 	}

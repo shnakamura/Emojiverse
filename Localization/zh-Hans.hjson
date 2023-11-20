@@ -20,11 +20,6 @@ Mods: {
 					Label: 繪圖比例
 					Tooltip: 調整聊天中表情符號的比例。
 				}
-
-				EmojiDrawingResolution: {
-					Label: Emoji 繪圖分辨率
-					Tooltip: 調整聊天中表情符號的解析度。
-				}
 			}
 		}
 	}

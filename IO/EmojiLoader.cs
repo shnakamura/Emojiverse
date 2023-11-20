@@ -11,12 +11,16 @@ namespace Emojiverse.IO;
 
 public sealed class EmojiLoader : ModSystem
 {
-    public static Dictionary<int, Emoji> Emojis { get; private set; }
     public static Dictionary<string, int> RepeatedNames { get; private set; }
     
+    public static Dictionary<int, Emoji> EmojisById { get; private set; }
+    public static Dictionary<string, int> IdsByAlias { get; private set; }
+    
     public override void Load() {
-        Emojis = new Dictionary<int, Emoji>();
         RepeatedNames = new Dictionary<string, int>();
+        
+        EmojisById = new Dictionary<int, Emoji>();
+        IdsByAlias = new Dictionary<string, int>();
         
         UpdateEmojis(Main.AssetSourceController.ActiveResourcePackList);
         
@@ -24,21 +28,27 @@ public sealed class EmojiLoader : ModSystem
     }
 
     public override void Unload() {
-        Emojis.Clear();
-        Emojis = null;
-        
         RepeatedNames.Clear();
         RepeatedNames = null;
+        
+        EmojisById.Clear();
+        EmojisById = null;
+    
+        IdsByAlias.Clear();
+        IdsByAlias = null;
         
         Main.AssetSourceController.OnResourcePackChange -= UpdateEmojis; 
     }
 
     private static void UpdateEmojis(ResourcePackList list) {
-        Emojis.Clear();
-        Emojis.TrimExcess();
-        
         RepeatedNames.Clear();
         RepeatedNames.TrimExcess();
+        
+        EmojisById.Clear();
+        EmojisById.TrimExcess();
+        
+        IdsByAlias.Clear();
+        IdsByAlias.TrimExcess();
         
         foreach (var pack in list.EnabledPacks) {
             foreach (var asset in pack.GetContentSource().EnumerateAssets()) {
@@ -61,25 +71,32 @@ public sealed class EmojiLoader : ModSystem
 
         var fixedPath = Path.ChangeExtension(path, null);
         
-        var id = Emojis.Count;
+        var id = EmojisById.Count;
         var extension = Path.GetExtension(path);
+
+        var emoji = new Emoji(alias, name, fixedPath, id, extension == ".gif");
         
-        Emojis[id] = new Emoji(alias, name, fixedPath, id, extension == ".gif");
+        EmojisById[id] = emoji;
+        IdsByAlias[alias] = id;
     }
 
-    public static bool TryGet(int id, [MaybeNullWhen(false)] out Emoji emoji) {
-        return Emojis.TryGetValue(id, out emoji);
+    public static bool TryGetEmoji(int id, [MaybeNullWhen(false)] out Emoji emoji) {
+        return EmojisById.TryGetValue(id, out emoji);
     }
 
-    public static bool Has(int id) {
-        return TryGet(id, out _);
+    public static bool TryGetId(string alias, [MaybeNullWhen(false)] out int id) {
+        return IdsByAlias.TryGetValue(alias, out id);
     }
 
-    public static bool HasAny() {
-        return Emojis.Count > 0;
+    public static bool HasEmoji(int id) {
+        return TryGetEmoji(id, out _);
     }
 
-    public static IEnumerable<Emoji> Enumerate() {
-        return Emojis.Values;
+    public static bool HasAnyEmoji() {
+        return EmojisById.Count > 0;
+    }
+
+    public static IEnumerable<Emoji> EnumerateEmojis() {
+        return EmojisById.Values;
     }
 }
