@@ -42,14 +42,14 @@ public sealed class EmojiLoader : ModSystem
         
         foreach (var pack in list.EnabledPacks) {
             foreach (var asset in pack.GetContentSource().EnumerateAssets()) {
-                Register(Path.Combine(pack.Name, Path.GetDirectoryName(asset), Path.GetFileNameWithoutExtension(asset)));
+                Register(Path.Combine(pack.Name, Path.GetDirectoryName(asset), Path.GetFileName(asset)));
             } 
         }
     }
 
     private static void Register(string path) {
         var name = Path.GetFileNameWithoutExtension(path);
-        var alias = path;   
+        var alias = name;   
 
         if (RepeatedNames.TryGetValue(name, out var count)) {
             alias += $"~{count}";
@@ -59,9 +59,12 @@ public sealed class EmojiLoader : ModSystem
             RepeatedNames[name] = 1;        
         }
 
+        var fixedPath = Path.ChangeExtension(path, null);
+        
         var id = Emojis.Count;
-
-        Emojis[id] = new Emoji(alias, name, path, id);
+        var extension = Path.GetExtension(path);
+        
+        Emojis[id] = new Emoji(alias, name, fixedPath, id, extension == ".gif");
     }
 
     public static bool TryGet(int id, [MaybeNullWhen(false)] out Emoji emoji) {

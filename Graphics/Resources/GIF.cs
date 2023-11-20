@@ -5,7 +5,7 @@ using Terraria.ModLoader;
 
 namespace Emojiverse.Graphics.Resources;
 
-public sealed class Gif : IDisposable
+public sealed class GIF : IDisposable
 {
     public readonly Texture2D[] Frames;
 
@@ -14,7 +14,7 @@ public sealed class Gif : IDisposable
     
     public bool IsDisposed { get; private set; }
     
-    public Gif(Texture2D[] frames, int frameRate, int frameCount) {
+    public GIF(Texture2D[] frames, int frameRate, int frameCount) {
         Frames = frames;
         FrameRate = frameRate;
         FrameCount = frameCount;
@@ -40,7 +40,7 @@ public sealed class Gif : IDisposable
         GC.SuppressFinalize(this);
     }
 
-    ~Gif() {
+    ~GIF() {
         Dispose(false);
     }
 }

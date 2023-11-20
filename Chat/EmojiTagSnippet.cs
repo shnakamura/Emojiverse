@@ -14,11 +14,13 @@ namespace Emojiverse.Chat;
 
 public sealed class EmojiTagSnippet : TextSnippet
 {
-    public readonly Emoji Emoji;
+    private const int Size = 20;
 
-    private float frameCounter;
-    private int frameIndex;
-    
+    public Emoji Emoji { get; }
+
+    public int Frame { get; private set; }
+    public int FrameCounter { get; private set; }
+
     public EmojiTagSnippet(Emoji emoji) {
         Emoji = emoji;
     }
@@ -28,79 +30,60 @@ public sealed class EmojiTagSnippet : TextSnippet
     }
 
     public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
-        const int Size = 20;
-
         var notDrawingOutline = color.R != 0 || color.G != 0 || color.B != 0;
-        
-        size = new Vector2(Size);
 
         if (!justCheckingString && notDrawingOutline) {
+            var texture = Asset<Texture2D>.Empty.Value;
+
             if (Emoji.Animated) {
-                var gif = EmojiRepository.Assets.Request<Gif>(Emoji.Path).Value;
+                var gif = EmojiRepository.Assets.Request<GIF>(Emoji.Path).Value;
 
-                frameCounter++;
+                FrameCounter++;
 
-                if (frameCounter >= 1f / gif.FrameRate) {
-                    frameCounter = 0f;
+                if (FrameCounter >= 1f / gif.FrameRate) {
+                    FrameCounter = 0;
 
-                    if (frameIndex >= gif.Frames.Length - 1) {
-                        frameIndex = 0;
-                        return true;
+                    if (Frame >= gif.Frames.Length - 1) {
+                        Frame = 0;
                     }
                     else {
-                        frameIndex++;
+                        Frame++;
                     }
                 }
-                
-                var texture = gif.Frames[frameIndex];
-                    
-                var frame = texture.Frame();
-                var origin = frame.Size() / 2f;
 
-                var area = new Vector2(Size);
-                var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
-                var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
-                    
-                var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-                var modifiedSnapshot = originalSnapshot with {
-                    SortMode = SpriteSortMode.Texture,
-                    SamplerState = SamplerState.PointClamp
-                };
-
-                spriteBatch.End();
-                spriteBatch.Begin(in modifiedSnapshot);
-            
-                spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
-
-                spriteBatch.End();
-                spriteBatch.Begin(in originalSnapshot);
+                texture = gif.Frames[Frame];
             }
             else {
-                var texture = EmojiRepository.Assets.Request<Texture2D>(Emoji.Path).Value;
+                var image = EmojiRepository.Assets.Request<Texture2D>(Emoji.Path).Value;
 
-                var frame = texture.Frame();
-                var origin = frame.Size() / 2f;
-
-                var area = new Vector2(Size);
-                var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
-                var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size), (int)(Size));
-
-                var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
-                var modifiedSnapshot = originalSnapshot with {
-                    SortMode = SpriteSortMode.Texture,
-                    SamplerState = SamplerState.PointClamp
-                };
-
-                spriteBatch.End();
-                spriteBatch.Begin(in modifiedSnapshot);
-            
-                spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
-
-                spriteBatch.End();
-                spriteBatch.Begin(in originalSnapshot);
+                texture = image;
             }
+
+            var frame = texture.Frame();
+            var origin = frame.Size() / 2f;
+
+            var scaleMultiplier = EmojiverseConfig.Instance.EmojiDrawingScale;
+
+            var area = new Vector2(Size) * scaleMultiplier;
+            var offset = area * (1f / Size) / 2f + area / 2f + new Vector2(0f, 4f);
+            var rectangle = new Rectangle((int)(position.X + offset.X), (int)(position.Y + offset.Y), (int)(Size * scaleMultiplier), (int)(Size * scaleMultiplier));
+
+            var originalSnapshot = SpriteBatchSnapshot.Capture(spriteBatch);
+            var modifiedSnapshot = originalSnapshot with {
+                SortMode = SpriteSortMode.Texture,
+                SamplerState = SamplerState.PointClamp
+            };
+            
+            spriteBatch.End();
+            spriteBatch.Begin(in modifiedSnapshot);
+
+            spriteBatch.Draw(texture, rectangle, frame, Color.White, 0f, origin, SpriteEffects.None, 0f);
+
+            spriteBatch.End();
+            spriteBatch.Begin(in originalSnapshot);
         }
 
+        size = new Vector2(Size);
 
         return true;
     }

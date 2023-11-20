@@ -21,7 +21,7 @@ public sealed class GifReader : IAssetReader
     }
     
     public async ValueTask<T> FromStream<T>(Stream stream, MainThreadCreationContext context) where T : class {
-        if (typeof(T) != typeof(Gif)) {
+        if (typeof(T) != typeof(GIF)) {
             throw AssetLoadException.FromInvalidReader<GifReader, T>();
         }
 
@@ -49,7 +49,7 @@ public sealed class GifReader : IAssetReader
         var frameDelay = BitConverter.ToInt32(frameDelayInfo.Value, 0) * 10;
         var frameRate = frameCount * 1000 / frameDelay;
 
-        var gif = new Gif(frames, frameCount, frameRate);
+        var gif = new GIF(frames, frameCount, frameRate);
         
         ModContent.GetInstance<Emojiverse>().Logger.Debug($"Frames: {frames.Length} @ Count: {frameCount}");
 

@@ -15,12 +15,10 @@ using Terraria.UI.Chat;
 
 namespace Emojiverse.UI;
 
+// Completely disregard this file, as of now. It will be the last addition before v0.3.
+
 public sealed class UIChatEmojiPreviewer : UIState
 {
-    private const int InitialDelayMilliseconds = 200; // Adjust as needed
-    private const int RepatDelayMilliseconds = 50;   // Adjust as needed
-    private int elapsedMilliseconds;
-    
     private List<Emoji> emojiSuggestions;
     private readonly int maxElements = 10;
     private int selectedIndex;
@@ -49,7 +47,7 @@ public sealed class UIChatEmojiPreviewer : UIState
     }
 
     public override void Draw(SpriteBatch spriteBatch) {
-        if (!Main.drawingPlayerChat) {
+        if (Main.drawingPlayerChat) {
             return;
         }
 
