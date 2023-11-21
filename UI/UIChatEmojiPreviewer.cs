@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using System.Text;
 using Emojiverse.IO;
+using Emojiverse.Utilities.Extensions;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
 using Microsoft.Xna.Framework.Input;
@@ -17,24 +18,25 @@ public sealed class UIChatEmojiPreviewer : UIState
     private const int KeyInitialDelay = 30;
     private const int KeyRepeatDelay = 2;
 
-    private const int MaxElements = 10;
 
-    private const int ElementHeight = 20;
-    private const int ElementPadding = 4;
     
     private int holdDelayTimer;
     private int selectedIndex;
 
-    public List<Emoji> Suggestions { get; } = new();
+    public List<Emoji> EmojiSuggestions { get; } = new();
 
     public override void Update(GameTime gameTime) {
-        Suggestions.Clear();
-        Suggestions.TrimExcess();
+        EmojiSuggestions.Clear();
+        EmojiSuggestions.TrimExcess();
 
         var input = Main.chatText;
         var index = input.LastIndexOf(':');
 
-        if (!Main.drawingPlayerChat || string.IsNullOrEmpty(input) || index == -1 || input.Length < 3) {
+        var isValid = index != -1 && !string.IsNullOrEmpty(input) && input.Length >= 3;
+        var isIsolated = index - 1 <= -1 || char.IsWhiteSpace(input[index - 1]);
+        
+        if (!Main.drawingPlayerChat || !isValid || !isIsolated) {
+            selectedIndex = 0;
             return;
         }
 
@@ -45,17 +47,17 @@ public sealed class UIChatEmojiPreviewer : UIState
         foreach (var emoji in EmojiLoader.EnumerateEmojis()) {
             if (emoji.Alias.StartsWith(content)
                 && addedNames.Add(emoji)) {
-                Suggestions.Add(emoji);
+                EmojiSuggestions.Add(emoji);
             }
             else if (emoji.Alias.Contains(content)
                 && !emoji.Alias.StartsWith(content)
                 && addedNames.Add(emoji)) {
-                Suggestions.Add(emoji);
+                EmojiSuggestions.Add(emoji);
             }
         }
 
-        if ((Main.keyState.IsKeyDown(Keys.Tab) || Main.keyState.IsKeyDown(Keys.Enter)) && Suggestions.Count > 0) {
-            var suggestion = Suggestions[selectedIndex];
+        if ((Main.keyState.IsKeyDown(Keys.Tab) || Main.keyState.IsKeyDown(Keys.Enter)) && EmojiSuggestions.Count > 0) {
+            var suggestion = EmojiSuggestions[selectedIndex];
             var tagText = $"[e:{suggestion.Id}]";
 
             var stringBuilder = new StringBuilder(input);
@@ -83,24 +85,27 @@ public sealed class UIChatEmojiPreviewer : UIState
             holdDelayTimer = 0;
         }
 
-        selectedIndex = (int)MathHelper.Clamp(selectedIndex, 0, Suggestions.Count - 1);
+        selectedIndex = (int)MathHelper.Clamp(selectedIndex, 0, EmojiSuggestions.Count - 1);
 
         base.Update(gameTime);
     }
 
     public override void Draw(SpriteBatch spriteBatch) {
-        var input = Main.chatText;
-        var index = input.LastIndexOf(':');
-
-        if (!Main.drawingPlayerChat || Suggestions.Count <= 0) {
+        if (!Main.drawingPlayerChat || EmojiSuggestions.Count <= 0) {
             return;
         }
+        
+        var MaxElements = 10;
+
+        var ElementHeight = 24;
+        var ElementSpacing = 4;
+        var ElementGap = 24;
 
         var menuWidth = Main.screenWidth / 2;
         var menuHeight = MaxElements * ElementHeight;
 
-        if (Suggestions.Count < MaxElements) {
-            menuHeight = Suggestions.Count * ElementHeight;
+        if (EmojiSuggestions.Count < MaxElements) {
+            menuHeight = EmojiSuggestions.Count * ElementHeight;
         }
 
         var menuTop = Main.screenHeight - menuHeight - 40;
@@ -111,47 +116,67 @@ public sealed class UIChatEmojiPreviewer : UIState
         spriteBatch.Draw(TextureAssets.MagicPixel.Value, menuRectangle, Color.Black * 0.75f);
 
         var start = Math.Max(0, selectedIndex - MaxElements + 1);
-        var end = Math.Min(start + MaxElements, Suggestions.Count);
+        var end = Math.Min(start + MaxElements, EmojiSuggestions.Count);
 
         var font = FontAssets.MouseText.Value;
 
         for (var i = start; i < end; i++) {
-            var suggestion = Suggestions[i];
+            var emoji = EmojiSuggestions[i];
 
             var elementTop = Main.screenHeight - menuHeight + (i - start) * ElementHeight - 40;
-            var elementLeft = 82;
-
-            var tagText = $"[e:{suggestion.Id}]";
-            var aliasText = $":{suggestion.Alias}:";
+            var elementLeft = menuLeft;
 
             if (i == selectedIndex) {
                 var suggestionRectangle = new Rectangle(menuLeft, elementTop, menuWidth, ElementHeight);
 
-                spriteBatch.Draw(TextureAssets.MagicPixel.Value, suggestionRectangle, Color.DarkGray * 0.75f);
+                spriteBatch.Draw(TextureAssets.MagicPixel.Value, suggestionRectangle, Color.DarkGray * 0.25f);
             }
 
+            var tagLeft = elementLeft + ElementSpacing;
+            var tagTop = elementTop - ElementSpacing / 2f;
+            
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 font,
-                tagText,
-                new Vector2(elementLeft, elementTop - ElementPadding),
+                $"[e:{emoji.Id}]",
+                new Vector2(tagLeft, tagTop),
                 Color.White,
                 Color.Black,
                 0f,
                 default,
                 new Vector2(1f)
             );
+            
+            var aliasSize = font.MeasureString(emoji.Alias.SurroundWith(':')) * 0.8f;
+            var aliasLeft = tagLeft + ElementGap;
+            var aliasTop = elementTop + ElementSpacing;
 
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
                 font,
-                aliasText,
-                new Vector2(elementLeft + 30, elementTop),
+                emoji.Alias.SurroundWith(':'),
+                new Vector2(aliasLeft, aliasTop),
                 Color.White,
                 Color.Black,
                 0f,
                 default,
-                new Vector2(1f)
+                new Vector2(0.8f)
+            );
+
+            var packSize = font.MeasureString(emoji.Pack) * 0.6f;
+            var packLeft = elementLeft + menuWidth - packSize.X - ElementSpacing * 2f;
+            var packTop = elementTop + packSize.Y / 2f - ElementSpacing * 0.6f;
+            
+            ChatManager.DrawColorCodedStringWithShadow(
+                Main.spriteBatch,
+                font,
+                emoji.Pack,
+                new Vector2(packLeft, packTop),
+                Color.White,
+                Color.Black,
+                0f,
+                default,
+                new Vector2(0.6f)
             );
         }
 

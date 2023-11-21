@@ -68,13 +68,14 @@ public sealed class EmojiLoader : ModSystem
         else {
             RepeatedNames[name] = 1;        
         }
-
-        var fixedPath = Path.ChangeExtension(path, null);
         
         var id = EmojisById.Count;
+        var fixedPath = Path.ChangeExtension(path, null);
+        var pack = Path.GetDirectoryName(Path.GetDirectoryName(path));
+        
         var extension = Path.GetExtension(path);
 
-        var emoji = new Emoji(alias, name, fixedPath, id, extension == ".gif");
+        var emoji = new Emoji(name, alias, fixedPath, pack, id, extension == ".gif");
         
         EmojisById[id] = emoji;
         IdsByAlias[alias] = id;
