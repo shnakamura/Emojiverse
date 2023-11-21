@@ -18,7 +18,11 @@ public sealed class UIChatEmojiPreviewer : UIState
     private const int KeyInitialDelay = 30;
     private const int KeyRepeatDelay = 2;
 
+    private const int MaxElements = 10;
 
+    private const int ElementHeight = 24;
+    private const int ElementGap = 24;
+    private const int ElementPadding = 4;
     
     private int holdDelayTimer;
     private int selectedIndex;
@@ -32,15 +36,19 @@ public sealed class UIChatEmojiPreviewer : UIState
         var input = Main.chatText;
         var index = input.LastIndexOf(':');
 
-        var isValid = index != -1 && !string.IsNullOrEmpty(input) && input.Length >= 3;
-        var isIsolated = index - 1 <= -1 || char.IsWhiteSpace(input[index - 1]);
+        if (index == -1) {
+            return;
+        }
+
+        var content = input.Substring(index + 1);
+
+        var isValid = index != -1 && !string.IsNullOrEmpty(input) && content.Length >= 2;
+        var isIsolated = index - 1 <= -1 || char.IsWhiteSpace(input[index - 1]) || input[index - 1] == ']';
         
         if (!Main.drawingPlayerChat || !isValid || !isIsolated) {
             selectedIndex = 0;
             return;
         }
-
-        var content = input.Substring(index + 1);
 
         var addedNames = new HashSet<Emoji>();
 
@@ -95,12 +103,6 @@ public sealed class UIChatEmojiPreviewer : UIState
             return;
         }
         
-        var MaxElements = 10;
-
-        var ElementHeight = 24;
-        var ElementSpacing = 4;
-        var ElementGap = 24;
-
         var menuWidth = Main.screenWidth / 2;
         var menuHeight = MaxElements * ElementHeight;
 
@@ -132,8 +134,8 @@ public sealed class UIChatEmojiPreviewer : UIState
                 spriteBatch.Draw(TextureAssets.MagicPixel.Value, suggestionRectangle, Color.DarkGray * 0.25f);
             }
 
-            var tagLeft = elementLeft + ElementSpacing;
-            var tagTop = elementTop - ElementSpacing / 2f;
+            var tagLeft = elementLeft + ElementPadding;
+            var tagTop = elementTop - ElementPadding / 2f;
             
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
@@ -149,7 +151,7 @@ public sealed class UIChatEmojiPreviewer : UIState
             
             var aliasSize = font.MeasureString(emoji.Alias.SurroundWith(':')) * 0.8f;
             var aliasLeft = tagLeft + ElementGap;
-            var aliasTop = elementTop + ElementSpacing;
+            var aliasTop = elementTop + ElementPadding;
 
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,
@@ -164,8 +166,8 @@ public sealed class UIChatEmojiPreviewer : UIState
             );
 
             var packSize = font.MeasureString(emoji.Pack) * 0.6f;
-            var packLeft = elementLeft + menuWidth - packSize.X - ElementSpacing * 2f;
-            var packTop = elementTop + packSize.Y / 2f - ElementSpacing * 0.6f;
+            var packLeft = elementLeft + menuWidth - packSize.X - ElementPadding * 2f;
+            var packTop = elementTop + packSize.Y / 2f - ElementPadding * 0.6f;
             
             ChatManager.DrawColorCodedStringWithShadow(
                 Main.spriteBatch,

@@ -4,9 +4,14 @@ To create your own emoji pack, reproduce the following steps:
 1. Create a workshop resource pack.
 2. Separate which images you want to use as emojis.
 3. Create a 'Emojis/' folder within the resource pack.
-4. Drag all of your images in that folder.
+4. Drag all of your images into that folder.
+5. Enable your resource pack.
 
-* Only supports .png files as of now *
+Following all of these steps should grant you a custom emoji pack. Do keep in mind that the supported file formats are:
+- .gif
+- .png
+- .jpg
+- .jpe
+- .jpeg
 
-- Use the '/listemojis' command to view all emojis available from enabled resource packs.
-- Use ':emojiname:' syntax to print an emoji. (Alternatively [e:emojiname])
+To type out an emoji, start typing as you would in Discord. To insert the selected emoji, press [TAB].

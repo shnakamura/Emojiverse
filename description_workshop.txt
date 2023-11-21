@@ -1,0 +1,13 @@
+﻿[h1]Emojiverse[/h1]
+Emojiverse adds chat emojis to Terraria. Create custom emojis with resource packs or use the official 'Emojiverse Essentials' pack on Steam Workshop, featuring 1.6k+ default emojis.
+[h2]Features[/h2]
+[h3]Emojis[/h3]
+This feature includes normal emojis, but also animated emojis!
+[img]https://imgur.com/e9vumi5.gif[/img]
+[img]https://imgur.com/Z3RYbCm.gif[/img]
+[h3]Previewer[/h3]
+This feature allows you to preview what emoji you are typing out in real time.
+[img]https://imgur.com/tbQmJJL.gif[/img]
+[h2]Links[/h2]
+- [url=https://discord.gg/nGJqynr9wk]Discord[/url]
+- [url=https://github.com/shnakamura/Emojiverse]Source[/url]
