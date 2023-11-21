@@ -27,6 +27,13 @@ public sealed class UIChatEmojiPreviewer : UIState
     private int holdDelayTimer;
     private int selectedIndex;
 
+    private int SelectedIndex {
+        get => selectedIndex;
+        set {
+            selectedIndex = (int)MathHelper.Clamp(value, 0, EmojiSuggestions.Count - 1);
+        }
+    }
+
     public List<Emoji> EmojiSuggestions { get; } = new();
 
     public override void Update(GameTime gameTime) {
@@ -46,10 +53,10 @@ public sealed class UIChatEmojiPreviewer : UIState
         var isIsolated = index - 1 <= -1 || char.IsWhiteSpace(input[index - 1]) || input[index - 1] == ']';
         
         if (!Main.drawingPlayerChat || !isValid || !isIsolated) {
-            selectedIndex = 0;
+            SelectedIndex = 0;
             return;
         }
-
+        
         var addedNames = new HashSet<Emoji>();
 
         foreach (var emoji in EmojiLoader.EnumerateEmojis()) {
@@ -93,8 +100,6 @@ public sealed class UIChatEmojiPreviewer : UIState
             holdDelayTimer = 0;
         }
 
-        selectedIndex = (int)MathHelper.Clamp(selectedIndex, 0, EmojiSuggestions.Count - 1);
-
         base.Update(gameTime);
     }
 
@@ -117,7 +122,7 @@ public sealed class UIChatEmojiPreviewer : UIState
 
         spriteBatch.Draw(TextureAssets.MagicPixel.Value, menuRectangle, Color.Black * 0.75f);
 
-        var start = Math.Max(0, selectedIndex - MaxElements + 1);
+        var start = Math.Max(0, SelectedIndex - MaxElements + 1);
         var end = Math.Min(start + MaxElements, EmojiSuggestions.Count);
 
         var font = FontAssets.MouseText.Value;
@@ -128,7 +133,7 @@ public sealed class UIChatEmojiPreviewer : UIState
             var elementTop = Main.screenHeight - menuHeight + (i - start) * ElementHeight - 40;
             var elementLeft = menuLeft;
 
-            if (i == selectedIndex) {
+            if (i == SelectedIndex) {
                 var suggestionRectangle = new Rectangle(menuLeft, elementTop, menuWidth, ElementHeight);
 
                 spriteBatch.Draw(TextureAssets.MagicPixel.Value, suggestionRectangle, Color.DarkGray * 0.25f);
