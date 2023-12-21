@@ -7,7 +7,7 @@ namespace Emojiverse;
 public sealed class EmojiverseConfig : ModConfig
 {
     public static EmojiverseConfig Instance => ModContent.GetInstance<EmojiverseConfig>();
-    
+
     public override ConfigScope Mode { get; } = ConfigScope.ClientSide;
 
     [Header("Messages")]

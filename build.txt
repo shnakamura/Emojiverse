@@ -1,6 +1,6 @@
 displayName = Emojiverse
-author = Naka & LolXD87
-version = 0.3.1
+author = nakamurash & LolXD87
+version = 0.4
 homepage = https://discord.gg/nGJqynr9wk
 
 side = Client

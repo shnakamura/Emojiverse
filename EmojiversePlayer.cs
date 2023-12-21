@@ -1,15 +1,14 @@
-﻿using Emojiverse.IO;
-using Microsoft.Xna.Framework;
+﻿using Microsoft.Xna.Framework;
 using Terraria;
 using Terraria.Localization;
 using Terraria.ModLoader;
 
 namespace Emojiverse;
 
-public sealed class EmojiversePlayer : ModPlayer
+internal sealed class EmojiversePlayer : ModPlayer
 {
     public override void OnEnterWorld() {
-        if (!EmojiverseConfig.Instance.EnableWarningMessages || EmojiLoader.HasAnyEmoji()) {
+        if (!EmojiverseConfig.Instance.EnableWarningMessages || Emojiverse.HasAnyEmoji()) {
             return;
         }
 
