@@ -57,10 +57,6 @@ public sealed class EmojiSystem : ModSystem
     /// <param name="rootDirectory">The root directory for the search.</param>
     /// <typeparam name="T">The type of the mod.</typeparam>
     public static void LoadEmojisFromMod<T>(T mod, string rootDirectory) where T : Mod {
-        if (EmojiModData<T>.IsLoaded) {
-            return;
-        }
-
         foreach (var file in mod.GetFileNames()) {
             if (!file.EndsWith(".rawimg") || !file.Contains(rootDirectory)) {
                 continue;
@@ -82,8 +78,6 @@ public sealed class EmojiSystem : ModSystem
             }
 
             var emoji = new Emoji(mod, texture, name, alias, $"{mod.Name}:{name}");
-
-            mod.Logger.Debug(emoji.Alias);
 
             Emojis.Add(emoji);
 
