@@ -12,5 +12,5 @@ Emojiverse acts as a client-side mod, which means other players dont need to hav
 - [Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3079079431)
 
 # Credits
-- Icon by Funk.it (funk.it)
+- Icon by `@funk.it`
 - Default emojis provided by [Twemoji](https://twemoji.twitter.com/)
