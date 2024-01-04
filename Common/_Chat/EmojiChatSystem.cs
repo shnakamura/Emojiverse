@@ -1,5 +1,11 @@
 ﻿using System.Collections;
+using System.Collections.Immutable;
+using System.Linq;
 using System.Reflection;
+using Emojiverse.Utilities;
+using Mono.Cecil.Cil;
+using MonoMod.Cil;
+using Terraria;
 using Terraria.ModLoader;
 using Terraria.UI.Chat;
 
@@ -7,25 +13,54 @@ namespace Emojiverse.Common;
 
 internal sealed class EmojiChatSystem : ModSystem
 {
-    private static readonly FieldInfo handlersInfo = typeof(ChatManager).GetField("_handlers", BindingFlags.NonPublic | BindingFlags.Public | BindingFlags.Static);
-
-    private static readonly string[] names = {
+    public static readonly string[] Tags = {
         "e",
         "emoji",
         "emote"
     };
 
     public override void Load() {
-        ChatManager.Register<EmojiTagHandler>(names);
+        ChatManager.Register<EmojiTagHandler>(Tags);
+        
+        IL_Main.DoUpdate_HandleChat += HandleChatPatch;
+
+        On_Main.OpenPlayerChat += OpenPlayerChatHook;
+        On_Main.ClosePlayerChat += ClosePlayerChatHook;
     }
 
     public override void Unload() {
-        if (handlersInfo.GetValue(null) is not IDictionary dictionary) {
+        ChatManagerUtils.Unregister(Tags);
+    }
+
+    private static void HandleChatPatch(ILContext il) {
+        var c = new ILCursor(il);
+
+        if (!c.TryGotoNext(i => i.MatchLdstr(string.Empty))) {
             return;
         }
+
+        c.Index--;
+
+        var label = c.DefineLabel();
+
+        c.EmitDelegate(() => UIEmojiSuggestionSystem.SuggestionInterface?.CurrentState is UIEmojiSuggestion state && state.EmojiSuggestions?.Count > 0);
+
+        c.Emit(OpCodes.Brfalse, label);
+        c.Emit(OpCodes.Ret);
+        c.Emit(OpCodes.Nop);
         
-        foreach (var name in names) {
-            dictionary.Remove(name);
-        }
+        c.MarkLabel(label);
+    }
+
+    private static void OpenPlayerChatHook(On_Main.orig_OpenPlayerChat orig) {
+        orig();
+
+        UIEmojiSuggestionSystem.Enable();
+    }
+
+    private static void ClosePlayerChatHook(On_Main.orig_ClosePlayerChat orig) {
+        orig();
+
+        UIEmojiSuggestionSystem.Disable();
     }
 }

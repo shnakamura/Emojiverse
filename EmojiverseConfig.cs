@@ -10,10 +10,6 @@ public sealed class EmojiverseConfig : ModConfig
 
     public override ConfigScope Mode { get; } = ConfigScope.ClientSide;
 
-    [Header("Messages")]
-    [DefaultValue(true)]
-    public bool EnableWarningMessages { get; set; } = true;
-
     [Header("Chat")]
     [Slider]
     [Range(0.5f, 1f)]

@@ -1,13 +1,13 @@
 ﻿<?xml version="1.0" encoding="utf-8"?>
 
 <Project Sdk="Microsoft.NET.Sdk">
-    <Import Project="..\tModLoader.targets" />
+    <Import Project="..\tModLoader.targets"/>
 
     <PropertyGroup>
         <AssemblyName>Emojiverse</AssemblyName>
         <TargetFramework>net6.0</TargetFramework>
         <PlatformTarget>AnyCPU</PlatformTarget>
-        
+
         <!-- Lang version has to be the same as .net 6 because tml's version of roslyn is outdated so it's compiler doesn't support newer C# features. -->
         <!-- <LangVersion>latest</LangVersion> -->
     </PropertyGroup>
@@ -20,11 +20,11 @@
     </PropertyGroup>
 
     <ItemGroup>
-        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*" />
+        <PackageReference Include="tModLoader.CodeAssist" Version="0.1.*"/>
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Assets\" />
+        <Folder Include="Assets\"/>
     </ItemGroup>
 
 </Project>

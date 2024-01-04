@@ -5,16 +5,7 @@ Mods: {
 		Configs: {
 			EmojiverseConfig: {
 				DisplayName: Emojis Configuration
-
-				Headers: {
-					Messages: Messages
-					Chat: Chat
-				}
-
-				EnableWarningMessages: {
-					Label: Enable Warning Messages
-					Tooltip: Toggles warning messages, like undetected emoji packs, or other potential issues.
-				}
+				Headers.Chat: Chat
 
 				EmojiDrawingScale: {
 					Label: Emoji Drawing Scale

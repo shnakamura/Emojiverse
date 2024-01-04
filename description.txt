@@ -1,17 +1,6 @@
-Emojiverse adds chat emojis to Terraria. Create custom emojis with resource packs or use the official 'Emojiverse Essentials' pack on Steam Workshop, featuring 1.6k+ default emojis.
+Emojiverse adds chat emojis to Terraria, featuring 1.6k+ emojis from the same provider as Discord by default.
 
-To create your own emoji pack, reproduce the following steps:
-1. Create a workshop resource pack.
-2. Separate which images you want to use as emojis.
-3. Create a 'Emojis/' folder within the resource pack.
-4. Drag all of your images into that folder.
-5. Enable your resource pack.
+Emojiverse acts as a client-side mod, which means other players dont need to have it installed for it to work. This feature, however, also means that players without the mod or different emojis loaded may not be able to see your emojis the same way as you do.
 
-Following all of these steps should grant you a custom emoji pack. Do keep in mind that the supported file formats are:
-- .gif
-- .png
-- .jpg
-- .jpe
-- .jpeg
-
-To type out an emoji, start typing as you would in Discord. To insert the selected emoji, press [TAB].
+Icon by Funk.it (funk.it)
+Default emojis provided by Twemoji

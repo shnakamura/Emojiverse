@@ -11,28 +11,21 @@ public sealed class UIEmojiSuggestionSystem : ModSystem
 {
     private static GameTime lastGameTime;
 
-    public static UIEmojiSuggestion SuggestionState { get; private set; }
     public static UserInterface SuggestionInterface { get; private set; }
 
     public override void Load() {
-        SuggestionState = new UIEmojiSuggestion();
-        SuggestionState.Activate();
-
         SuggestionInterface = new UserInterface();
-        SuggestionInterface.SetState(SuggestionState);
     }
 
     public override void Unload() {
-        SuggestionState?.Deactivate();
-        SuggestionState = null;
-        
+        SuggestionInterface?.CurrentState?.Deactivate();
         SuggestionInterface?.SetState(null);
         SuggestionInterface = null;
     }
 
     public override void UpdateUI(GameTime gameTime) {
         lastGameTime = gameTime;
-        
+
         SuggestionInterface.Update(gameTime);
     }
 
@@ -44,6 +37,16 @@ public sealed class UIEmojiSuggestionSystem : ModSystem
         }
 
         layers.Insert(index + 1, new LegacyGameInterfaceLayer($"{nameof(Emojiverse)}:{nameof(UIEmojiSuggestion)}", DrawSuggestionInterface, InterfaceScaleType.UI));
+    }
+
+    public static void Enable() {
+        SuggestionInterface.SetState(new UIEmojiSuggestion());
+        SuggestionInterface.CurrentState.Activate();
+    }
+
+    public static void Disable() {
+        SuggestionInterface?.CurrentState?.Deactivate();
+        SuggestionInterface?.SetState(null);
     }
 
     private static bool DrawSuggestionInterface() {

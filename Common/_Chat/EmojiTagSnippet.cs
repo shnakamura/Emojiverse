@@ -9,8 +9,6 @@ namespace Emojiverse.Common;
 
 internal sealed class EmojiTagSnippet : TextSnippet
 {
-    private const int Size = 20;
-
     public readonly Emoji Emoji;
 
     public EmojiTagSnippet(Emoji emoji) {
@@ -20,8 +18,10 @@ internal sealed class EmojiTagSnippet : TextSnippet
     public override void OnHover() {
         Main.instance.MouseText(Emoji.Name.SurroundWith(':'));
     }
-    
+
     public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
+        const int Size = 20;
+        
         if (!justCheckingString && (color.R != 0 || color.G != 0 || color.B != 0)) {
             var texture = Emoji.Texture.Value;
 
@@ -40,9 +40,5 @@ internal sealed class EmojiTagSnippet : TextSnippet
         size = new Vector2(Size);
 
         return true;
-    }
-
-    public override float GetStringLength(DynamicSpriteFont font) {
-        return Size;
     }
 }

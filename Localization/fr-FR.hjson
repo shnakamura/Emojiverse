@@ -5,16 +5,7 @@ Mods: {
 		Configs: {
 			EmojiverseConfig: {
 				DisplayName: Configuration des Emojis
-
-				Headers: {
-					Messages: Messages
-					Chat: Chat
-				}
-
-				EnableWarningMessages: {
-					Label: Activer les Messages d'Avertissement
-					Tooltip: Active les messages d'avertissement, comme des packs d'emojis non détectés, ou autres problèmes potentiels.
-				}
+				Headers.Chat: Chat
 
 				EmojiDrawingScale: {
 					Label: Échelle de Rendu des Emojis
