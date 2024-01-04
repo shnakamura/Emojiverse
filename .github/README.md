@@ -8,8 +8,8 @@ Emojiverse acts as a client-side mod, which means other players dont need to hav
 <img src=https://imgur.com/mW0GTvG.png>
 
 # Links
-[Discord](https://discord.gg/nGJqynr9wk)
-[Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3079079431)
+- [Discord](https://discord.gg/nGJqynr9wk)
+- [Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3079079431)
 
 # Credits
 - Icon by Funk.it (funk.it)
