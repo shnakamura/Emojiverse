@@ -1,18 +1,16 @@
-﻿Emojiverse adds chat emojis to Terraria, featuring 1.6k+ emojis from the same provider as Discord by default.
+﻿[h1]Emojiverse[/h1]
+> [url=https://discord.gg/nGJqynr9wk]Discord[/url]
+Emojiverse adds chat emojis to Terraria, featuring 1.6k+ emojis from the same provider as Discord by default.
 
-[h1]Multiplayer[/h1]
-Emojiverse acts as a client-side mod, which means other players dont need to have it installed for it to work. This feature, however, also means that players without the mod or different emojis loaded may not be able to see your emojis the same way as you do.
+[hr]
 
 [h1]Preview[/h1]
 [img]https://imgur.com/DVfv3HV.png[/img]
 
 [img]https://imgur.com/mW0GTvG.png[/img]
 
-[h1]Links[/h1]
-[url=https://discord.gg/nGJqynr9wk]Discord[/url]
-[url=https://forums.terraria.org/index.php?threads/emojiverse.132049/]Forums[/url]
-[url=https://github.com/shnakamura/Emojiverse]Source[/url]
+[hr]
 
 [h1]Credits[/h1]
+All emojis featured by default are provided by [url=https://twemoji.twitter.com/]Twemoji[/url].
 Icon by @funk.it
-Default emojis provided by [url=https://twemoji.twitter.com/]Twemoji[/url]
