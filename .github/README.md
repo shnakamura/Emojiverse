@@ -15,4 +15,5 @@ Not yet. Animated emojis in .gif format will be supported soon.
 ---
 
 # Credits
-All emojis featured by default are provided from [Twemoji](https://twemoji.twitter.com/).
+* All emojis featured by default are provided by [Twemoji](https://twemoji.twitter.com/).
+* Icon by @funk.it
