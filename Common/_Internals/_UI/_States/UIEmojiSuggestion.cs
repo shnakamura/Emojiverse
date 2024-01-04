@@ -12,7 +12,7 @@ using Terraria.UI.Chat;
 
 namespace Emojiverse.Common;
 
-public sealed class UIEmojiSuggestion : UIState
+internal sealed class UIEmojiSuggestion : UIState
 {
     private const int KeyInitialDelay = 30;
     private const int KeyRepeatDelay = 2;

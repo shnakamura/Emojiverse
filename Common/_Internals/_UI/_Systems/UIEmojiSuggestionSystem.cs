@@ -7,7 +7,7 @@ using Terraria.UI;
 namespace Emojiverse.Common;
 
 [Autoload(Side = ModSide.Client)]
-public sealed class UIEmojiSuggestionSystem : ModSystem
+internal sealed class UIEmojiSuggestionSystem : ModSystem
 {
     private static GameTime lastGameTime;
 

@@ -7,9 +7,6 @@
         <AssemblyName>Emojiverse</AssemblyName>
         <TargetFramework>net6.0</TargetFramework>
         <PlatformTarget>AnyCPU</PlatformTarget>
-
-        <!-- Lang version has to be the same as .net 6 because tml's version of roslyn is outdated so it's compiler doesn't support newer C# features. -->
-        <!-- <LangVersion>latest</LangVersion> -->
     </PropertyGroup>
 
     <PropertyGroup>
@@ -24,7 +21,10 @@
     </ItemGroup>
 
     <ItemGroup>
-        <Folder Include="Assets\"/>
+      <Folder Include="Common\_Internals\" />
     </ItemGroup>
 
+    <PropertyGroup>
+        <GenerateDocumentationFile>true</GenerateDocumentationFile>
+    </PropertyGroup>
 </Project>

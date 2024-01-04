@@ -1,3 +1,4 @@
+using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
@@ -10,31 +11,53 @@ namespace Emojiverse.Common;
 [Autoload(Side = ModSide.Client)]
 public sealed class EmojiSystem : ModSystem
 {
-    internal static class EmojiModData<T> where T : Mod
+    private static class EmojiModData<T> where T : Mod
     {
         public static List<Emoji> Emojis { get; internal set; } = new();
 
         public static bool IsLoaded;
     }
 
+    /// <summary>
+    ///     Represents a lookup that provides how many times an emoji with X name has already been added.
+    /// </summary>
     public static Dictionary<string, int> RepeatedNameLookup { get; private set; } = new();
 
+    /// <summary>
+    ///     Represents a collection of all the currently loaded emojis.
+    /// </summary>
     public static List<Emoji> Emojis { get; private set; } = new();
 
     public override void PostSetupContent() {
-        LoadEmojisFromMod(Mod, "Assets/Emojis");
+        try {
+            LoadEmojisFromMod(Mod, "Assets/Emojis");
+        }
+        catch (Exception exception) {
+            Mod.Logger.Error(exception.Message, exception);
+        }
     }
 
     public override void Unload() {
-        UnloadEmojisFromMod(Mod);
+        try {
+            UnloadEmojisFromMod(Mod);
 
-        RepeatedNameLookup?.Clear();
-        RepeatedNameLookup = null;
+            RepeatedNameLookup?.Clear();
+            RepeatedNameLookup = null;
 
-        Emojis?.Clear();
-        Emojis = null;
+            Emojis?.Clear();
+            Emojis = null;
+        }
+        catch (Exception exception) {
+            Mod.Logger.Error(exception.Message, exception);
+        }
     }
 
+    /// <summary>
+    ///     Attempts to load and register all emojis from a mod, given a root directory for search.
+    /// </summary>
+    /// <param name="mod">The mod instance from which emojis will be unloaded.</param>
+    /// <param name="rootDirectory">The root directory for the search.</param>
+    /// <typeparam name="T">The type of the mod.</typeparam>
     public static void LoadEmojisFromMod<T>(T mod, string rootDirectory) where T : Mod {
         if (EmojiModData<T>.IsLoaded) {
             return;
@@ -70,6 +93,11 @@ public sealed class EmojiSystem : ModSystem
         EmojiModData<T>.IsLoaded = true;
     }
 
+    /// <summary>
+    ///     Attempts to unload all emojis registered from a mod.
+    /// </summary>
+    /// <param name="mod">The mod instance from which emojis will be unloaded.</param>
+    /// <typeparam name="T">The type of the mod.</typeparam>
     public static void UnloadEmojisFromMod<T>(T mod) where T : Mod {
         if (!EmojiModData<T>.IsLoaded) {
             return;
@@ -85,6 +113,12 @@ public sealed class EmojiSystem : ModSystem
         EmojiModData<T>.IsLoaded = false;
     }
 
+    /// <summary>
+    ///     Attempts to retrieve an emoji instance from a given identity.
+    /// </summary>
+    /// <param name="id">The identity search parameter.</param>
+    /// <param name="emoji">The emoji found.</param>
+    /// <returns>Whether an emoji with the identity specified exists or not.</returns>
     public static bool TryGetEmoji(int id, out Emoji emoji) {
         foreach (var iterator in Emojis) {
             if (iterator.Id == id) {
@@ -97,7 +131,13 @@ public sealed class EmojiSystem : ModSystem
         return false;
     }
     
-    public static bool TryGetId(string alias, [NotNullWhen(true)] out int? id) {
+    /// <summary>
+    ///     Attempts to retrieve an emoji's identity from a given alias.
+    /// </summary>
+    /// <param name="alias">The alias search parameter.</param>
+    /// <param name="id">The identity found.</param>
+    /// <returns>Whether an identity for the alias specified exists or not.</returns>
+    public static bool TryGetId(string alias, out int id) {
         foreach (var iterator in Emojis) {
             if (iterator.Alias == alias) {
                 id = iterator.Id;
@@ -105,7 +145,7 @@ public sealed class EmojiSystem : ModSystem
             }
         }
 
-        id = null;
+        id = -1;
         return false;
     }
 }
