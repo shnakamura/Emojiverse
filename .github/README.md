@@ -9,6 +9,7 @@ Emojiverse acts as a client-side mod, which means other players dont need to hav
 
 # Links
 - [Discord](https://discord.gg/nGJqynr9wk)
+- [Forums](https://forums.terraria.org/index.php?threads/emojiverse.132049/)
 - [Workshop](https://steamcommunity.com/sharedfiles/filedetails/?id=3079079431)
 
 # Credits
