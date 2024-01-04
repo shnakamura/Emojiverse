@@ -1,6 +1,5 @@
 using System;
 using System.Collections;
-using System.Collections.Generic;
 using System.Reflection;
 using Terraria.UI.Chat;
 
@@ -19,9 +18,9 @@ public static class ChatManagerUtils
     }
 
     /// <summary>
-    ///     Unregisters all specified <see cref="ITagHandler"/> instances from <see cref="ChatManager"/> based on their names.
+    ///     Unregisters all specified <see cref="ITagHandler" /> instances from <see cref="ChatManager" /> based on their names.
     /// </summary>
-    /// <param name="names">The names of the <see cref="ITagHandler"/> instances to be removed.</param>
+    /// <param name="names">The names of the <see cref="ITagHandler" /> instances to be removed.</param>
     public static void Unregister(params string[] names) {
         if (handlersInfo.GetValue(null) is not IDictionary dictionary) {
             return;

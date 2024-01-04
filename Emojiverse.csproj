@@ -21,7 +21,7 @@
     </ItemGroup>
 
     <ItemGroup>
-      <Folder Include="Common\_Internals\" />
+        <Folder Include="Common\_Internals\"/>
     </ItemGroup>
 
     <PropertyGroup>

@@ -12,4 +12,4 @@ namespace Emojiverse.Common;
 /// <param name="Name">The internal name of the emoji.</param>
 /// <param name="Alias">The external name or alias of the emoji.</param>
 /// <param name="Id">The identity of the emoji.</param>
-public readonly record struct Emoji(Mod Mod, Asset<Texture2D> Texture, string Name, string Alias, int Id);
+public readonly record struct Emoji(Mod Mod, Asset<Texture2D> Texture, string Name, string Alias, string Id);

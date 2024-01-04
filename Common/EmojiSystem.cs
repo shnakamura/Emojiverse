@@ -2,7 +2,6 @@ using System;
 using System.Collections.Generic;
 using System.Diagnostics.CodeAnalysis;
 using System.IO;
-using System.Runtime.InteropServices;
 using Microsoft.Xna.Framework.Graphics;
 using Terraria.ModLoader;
 
@@ -13,9 +12,8 @@ public sealed class EmojiSystem : ModSystem
 {
     private static class EmojiModData<T> where T : Mod
     {
-        public static List<Emoji> Emojis { get; internal set; } = new();
-
         public static bool IsLoaded;
+        public static List<Emoji> Emojis { get; internal set; } = new();
     }
 
     /// <summary>
@@ -62,14 +60,14 @@ public sealed class EmojiSystem : ModSystem
         if (EmojiModData<T>.IsLoaded) {
             return;
         }
-        
+
         foreach (var file in mod.GetFileNames()) {
             if (!file.EndsWith(".rawimg") || !file.Contains(rootDirectory)) {
                 continue;
             }
 
             var path = Path.ChangeExtension(file, null);
-            
+
             var texture = mod.Assets.Request<Texture2D>(path);
 
             var name = Path.GetFileNameWithoutExtension(path);
@@ -83,10 +81,12 @@ public sealed class EmojiSystem : ModSystem
                 RepeatedNameLookup[name] = 1;
             }
 
-            var emoji = new Emoji(mod, texture, name, alias, Emojis.Count);
+            var emoji = new Emoji(mod, texture, name, alias, $"{mod.Name}:{name}");
+
+            mod.Logger.Debug(emoji.Alias);
 
             Emojis.Add(emoji);
-            
+
             EmojiModData<T>.Emojis.Add(emoji);
         }
 
@@ -102,11 +102,11 @@ public sealed class EmojiSystem : ModSystem
         if (!EmojiModData<T>.IsLoaded) {
             return;
         }
-        
+
         foreach (var emoji in EmojiModData<T>.Emojis) {
             Emojis.Remove(emoji);
         }
-        
+
         EmojiModData<T>.Emojis?.Clear();
         EmojiModData<T>.Emojis = null;
 
@@ -119,33 +119,15 @@ public sealed class EmojiSystem : ModSystem
     /// <param name="id">The identity search parameter.</param>
     /// <param name="emoji">The emoji found.</param>
     /// <returns>Whether an emoji with the identity specified exists or not.</returns>
-    public static bool TryGetEmoji(int id, out Emoji emoji) {
+    public static bool TryGetEmoji(string id, out Emoji emoji) {
         foreach (var iterator in Emojis) {
             if (iterator.Id == id) {
                 emoji = iterator;
                 return true;
             }
         }
-        
-        emoji = default;
-        return false;
-    }
-    
-    /// <summary>
-    ///     Attempts to retrieve an emoji's identity from a given alias.
-    /// </summary>
-    /// <param name="alias">The alias search parameter.</param>
-    /// <param name="id">The identity found.</param>
-    /// <returns>Whether an identity for the alias specified exists or not.</returns>
-    public static bool TryGetId(string alias, out int id) {
-        foreach (var iterator in Emojis) {
-            if (iterator.Alias == alias) {
-                id = iterator.Id;
-                return true;
-            }
-        }
 
-        id = -1;
+        emoji = default;
         return false;
     }
 }

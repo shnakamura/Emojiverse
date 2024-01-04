@@ -1,8 +1,4 @@
-﻿using System.Collections;
-using System.Collections.Immutable;
-using System.Linq;
-using System.Reflection;
-using Emojiverse.Utilities;
+﻿using Emojiverse.Utilities;
 using Mono.Cecil.Cil;
 using MonoMod.Cil;
 using Terraria;
@@ -21,7 +17,7 @@ internal sealed class EmojiChatSystem : ModSystem
 
     public override void Load() {
         ChatManager.Register<EmojiTagHandler>(Tags);
-        
+
         IL_Main.DoUpdate_HandleChat += HandleChatPatch;
 
         On_Main.OpenPlayerChat += OpenPlayerChatHook;
@@ -48,7 +44,7 @@ internal sealed class EmojiChatSystem : ModSystem
         c.Emit(OpCodes.Brfalse, label);
         c.Emit(OpCodes.Ret);
         c.Emit(OpCodes.Nop);
-        
+
         c.MarkLabel(label);
     }
 

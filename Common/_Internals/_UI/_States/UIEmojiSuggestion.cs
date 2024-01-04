@@ -189,7 +189,7 @@ internal sealed class UIEmojiSuggestion : UIState
         if ((!Main.keyState.IsKeyDown(Keys.Tab) && !Main.keyState.IsKeyDown(Keys.Enter)) || EmojiSuggestions.Count <= 0) {
             return;
         }
-        
+
         var suggestion = EmojiSuggestions[selectedIndex];
         var tagText = $"[e:{suggestion.Id}]";
 

@@ -1,7 +1,6 @@
 ﻿using Emojiverse.Utilities;
 using Microsoft.Xna.Framework;
 using Microsoft.Xna.Framework.Graphics;
-using ReLogic.Graphics;
 using Terraria;
 using Terraria.UI.Chat;
 
@@ -21,7 +20,7 @@ internal sealed class EmojiTagSnippet : TextSnippet
 
     public override bool UniqueDraw(bool justCheckingString, out Vector2 size, SpriteBatch spriteBatch, Vector2 position = new(), Color color = new(), float scale = 1) {
         const int Size = 20;
-        
+
         if (!justCheckingString && (color.R != 0 || color.G != 0 || color.B != 0)) {
             var texture = Emoji.Texture.Value;
 
