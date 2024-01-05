@@ -1,16 +1,13 @@
 ﻿[h1]Emojiverse[/h1]
-> [url=https://discord.gg/nGJqynr9wk]Discord[/url]
-Emojiverse adds chat emojis to Terraria, featuring 1.6k+ emojis from the same provider as Discord by default.
+[url=https://discord.gg/nGJqynr9wk]Discord[/url]
 
-[hr]
+Emojiverse adds chat emojis to Terraria, featuring 1.6k+ emojis from the same provider as Discord by default.
 
 [h1]Preview[/h1]
 [img]https://imgur.com/DVfv3HV.png[/img]
 
 [img]https://imgur.com/mW0GTvG.png[/img]
 
-[hr]
-
 [h1]Credits[/h1]
-All emojis featured by default are provided by [url=https://twemoji.twitter.com/]Twemoji[/url].
-Icon by @funk.it
+* All emojis featured by default are provided by [url=https://twemoji.twitter.com/]Twemoji[/url].
+* Icon by @funk.it
